@@ -76,11 +76,12 @@ void Game::initSystems() {
     // Ставим песню
     // Настраиваем качество
     Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 1024);
+
     // Загружаем
     _music = Mix_LoadMUS("./bin/data/sdn/Smash Mouth All Star.mp3");
 }
 
-// Глвный цикл игры
+// Главный цикл игры
 void Game::gameLoop() {
     while (_gameState != GameState::EXIT) {
 
@@ -120,8 +121,8 @@ void Game::drawGame() {
     // Циклим музяку
     if (!Mix_PlayingMusic()) {
         Mix_PlayMusic(_music, 1);
-    }
-    Mix_VolumeMusic(10);
+    } // Громкость 0-100
+    Mix_VolumeMusic(0);
 
     // хз
     glClearDepth(1.0);
@@ -140,6 +141,6 @@ void Game::drawGame() {
         glVertex2f(500, 500);
     glEnd();
 
-    // Сменить буффер >> смотри SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+    // Сменить буффер >> смотри SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1)
     SDL_GL_SwapWindow(_window);
 }
