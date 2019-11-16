@@ -2,7 +2,8 @@
 
 C++, SDL2, OpenGL - Game engine.
 
-SDL2 2.0.10(stable);
+SDL2 2.0.10(stable)
+---
 OpenGL 4.6 NVIDIA
 
 # Install
