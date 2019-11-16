@@ -1,6 +1,7 @@
 #pragma once
 
 #include "SDL2/SDL.h"
+#include "SDL2/SDL_mixer.h"
 #include "GL/glew.h"
 
 enum class GameState {PLAY, EXIT};
@@ -24,5 +25,6 @@ private:
     int _screenWidth;
     int _screenHeight;
     const char* _title;
+    Mix_Music* _music;
     GameState _gameState;
 };

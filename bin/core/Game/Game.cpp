@@ -18,6 +18,7 @@ Game::Game()
     _screenWidth = 800;
     _screenHeight = 600;
     _gameState = GameState::PLAY;
+    _music = nullptr;
 }
 
 Game::~Game()
@@ -36,6 +37,8 @@ void Game::initSystems() {
 
     // SDL
     SDL_Init(SDL_INIT_EVERYTHING);
+    // MIX
+    Mix_Init(MIX_INIT_MP3);
 
     // Window
     _window = SDL_CreateWindow(
@@ -56,19 +59,25 @@ void Game::initSystems() {
         fatalError("SDL_GL context could not be created!");
     }
 
-    // Создаем glew -- я хз что это
-    //
+    // Создаем glew
+    // я хз что это
     GLenum error = glewInit();
     if (error != GLEW_OK) {
         fatalError("Could not initialize glew!");
     }
 
     // Включаем двойной буффер
-    // Он делаем смену кадра плавнее, за счет ресурсов пк
+    // хз что это значит
     SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
     // Устанавливаем цвет для рисования
     glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
+
+    // Ставим песню
+    // Настраиваем качество
+    Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 1024);
+    // Загружаем
+    _music = Mix_LoadMUS("./bin/data/sdn/Smash Mouth All Star.mp3");
 }
 
 // Глвный цикл игры
@@ -105,7 +114,15 @@ void Game::processInput() {
     }
 }
 
+// Рисуем тут
 void Game::drawGame() {
+
+    // Циклим музяку
+    if (!Mix_PlayingMusic()) {
+        Mix_PlayMusic(_music, 1);
+    }
+    Mix_VolumeMusic(10);
+
     // хз
     glClearDepth(1.0);
     // хз
