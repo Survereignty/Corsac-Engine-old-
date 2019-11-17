@@ -2,12 +2,12 @@
 CC = g++
 
 # Зависимости
-SOURCES = -lSDL2main -lSDL2 -lGL -lGLEW -lSDL2_mixer
+SOURCES =  -lSDL2main -lSDL2 -lSDL2_mixer -lvulkan
 
 # build and start
 .PHONY: run
 run:
-	$(CC) -lm -o engine ./bin/core/main.cpp $(SOURCES)
+	$(CC) -lm -m64 -o engine ./bin/core/main.cpp $(SOURCES)
 	./engine
 
 # build
