@@ -17,12 +17,12 @@ Game::Game()
     _screenHeight = 600;
     _gameState = GameState::PLAY;
     _music = nullptr;
-    renderer = nullptr;
+    //renderer = nullptr;
 }
 
 Game::~Game()
 {
-    delete renderer;
+    //delete renderer;
     SDL_Quit();
 }
 
@@ -109,6 +109,6 @@ void Game::drawGame() {
     if (!Mix_PlayingMusic()) {
         Mix_PlayMusic(_music, 1);
     } // Громкость 0-100
-    Mix_VolumeMusic(0);
+    Mix_VolumeMusic(10);
 
 }
