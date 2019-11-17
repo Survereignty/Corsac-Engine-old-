@@ -108,6 +108,6 @@ void Game::drawGame() {
     if (!Mix_PlayingMusic()) {
         Mix_PlayMusic(_music, 1);
     } // Громкость 0-100
-    Mix_VolumeMusic(10);
+    Mix_VolumeMusic(0);
 
 }

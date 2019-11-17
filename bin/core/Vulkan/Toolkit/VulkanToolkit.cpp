@@ -1,5 +1,7 @@
 #include "VulkanToolkit.h"
 
+
+// Обработчик расширений
 bool vktoolkit::CheckInstanceExtensionsSupported(std::vector<const char*> instanceExtensionsNames)
 {
     std::vector<VkExtensionProperties> availableExtensions;
@@ -34,6 +36,7 @@ bool vktoolkit::CheckInstanceExtensionsSupported(std::vector<const char*> instan
     return true;
 }
 
+// Обработчик слоев валидации
 bool vktoolkit::CheckValidationsLayersSupported(std::vector<const char*> validationsLayersNames)
 {
     std::vector<VkLayerProperties> availableLayers;
@@ -49,11 +52,8 @@ bool vktoolkit::CheckValidationsLayersSupported(std::vector<const char*> validat
     vkEnumerateInstanceLayerProperties(&layersCount, availableLayers.data());
 
     for (const char* requiredName : validationsLayersNames) {
-        std::cout << requiredName << std::endl;
-        std::cout << " " << std::endl;
         bool found = false;
         for (const VkLayerProperties &properties : availableLayers) {
-            std::cout << properties.layerName << std::endl;
             if (strcmp(requiredName, properties.layerName) == 0) {
                 found = true;
                 break;
