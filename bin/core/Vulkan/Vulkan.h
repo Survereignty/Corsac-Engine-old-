@@ -18,6 +18,7 @@ class Vulkan
     private:
         VkInstance instance_;
         VkDebugReportCallbackEXT validationReportCallback_;
+        VkSurfaceKHR surface_;
 
         VkInstance InitInstance(
             std::string applicationName,
@@ -27,6 +28,10 @@ class Vulkan
             );
 
         void DeinitInstance(VkInstance *vkInstance);
+
+        // VkSurfaceKHR InitWindowSurfase(VkInstance vkInstance, HINSTANCE hInstance, HWND hWnd);
+        
+        // void DeinitWindowSurface(VkInstance vkInstance, VkSurfaceKHR * surface);
 
     public:
         Vulkan();

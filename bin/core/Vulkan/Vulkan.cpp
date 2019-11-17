@@ -120,9 +120,20 @@ void Vulkan::DeinitInstance(VkInstance* vkInstance)
     }
 }
 
+// VkSurfaceKHR Vulkan::InitWindowSurfase(kInstance vkInstance, HINSTANCE hInstance, HWND hWnd)
+// {
+//     VkWaylandSurfaceCreateInfoKHR waylandSurfaceCreateInfoKhr;
+//     waylandSurfaceCreateInfoKhr.sType = VK_STRUCTURE_TYPE_WAYLAND_SURFACE_CREATE_INFO_KHR;
+//     waylandSurfaceCreateInfoKhr.hWnd = hWnd;
+//     waylandSurfaceCreateInfoKhr.hinstance = hInstance;
+//     waylandSurfaceCreateInfoKhr.flags = 0;
+//     waylandSurfaceCreateInfoKhr.pNext = nullptr;
+//}
+
 Vulkan::Vulkan() :
     instance_(VK_NULL_HANDLE),
     validationReportCallback_(VK_NULL_HANDLE)
+    //surface_(VK_NULL_HANDLE);
 {
     // Создание инстанса вулкана
     this->instance_ = this->InitInstance(

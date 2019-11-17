@@ -47,16 +47,17 @@ void Game::initSystems() {
         SDL_WINDOWPOS_CENTERED,
         _screenWidth,
         _screenHeight,
-        SDL_WINDOW_OPENGL
+        SDL_WINDOW_VULKAN
     );
     if(_window == nullptr) {
         fatalError("SDL Window could not be created!");
     }
-    try {
-        renderer = new Vulkan();
-    } catch (std::exception const &ex) {
-        std::cout << ex.what() << std::endl;
-    }
+
+    // try {
+    //     renderer = new Vulkan();
+    // } catch (std::exception const &ex) {
+    //     std::cout << ex.what() << std::endl;
+    // }
 
 
     // Ставим песню
