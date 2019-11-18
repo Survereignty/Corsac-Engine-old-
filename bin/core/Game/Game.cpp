@@ -17,13 +17,11 @@ Game::Game()
     _screenHeight = 600;
     _gameState = GameState::PLAY;
     _music = nullptr;
-    //renderer = nullptr;
 }
 
 Game::~Game()
 {
-    //delete renderer;
-    SDL_Quit();
+
 }
 
 void Game::run() {
@@ -47,18 +45,31 @@ void Game::initSystems() {
         SDL_WINDOWPOS_CENTERED,
         _screenWidth,
         _screenHeight,
-        SDL_WINDOW_VULKAN
+        SDL_WINDOW_OPENGL
     );
     if(_window == nullptr) {
         fatalError("SDL Window could not be created!");
     }
 
-    // try {
-    //     renderer = new Vulkan();
-    // } catch (std::exception const &ex) {
-    //     std::cout << ex.what() << std::endl;
+    // Создаем контекст OpenGl
+    SDL_GLContext GLContext = SDL_GL_CreateContext(_window);
+    if (GLContext == nullptr) {
+        fatalError("SDL_GL context could not be created!");
+    }
+
+    // // Создаем glew
+    // // я хз что это
+    // GLenum error = glewInit();
+    // if (error != GLEW_OK) {
+    //     fatalError("Could not initialize glew!");
     // }
 
+    // Включаем двойной буффер
+    // хз что это значит
+    SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+
+    // Устанавливаем цвет для рисования
+    glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
 
     // Ставим песню
     // Настраиваем качество
@@ -92,11 +103,11 @@ void Game::processInput() {
             break;
             // Позиция мыши
         case SDL_MOUSEMOTION:
-            /*std::cout
+            std::cout
                 << evnt.motion.x
                 << " "
                 << evnt.motion.y
-            << std::endl;*/
+            << std::endl;
             break;
         }
     }
@@ -109,6 +120,25 @@ void Game::drawGame() {
     if (!Mix_PlayingMusic()) {
         Mix_PlayMusic(_music, 1);
     } // Громкость 0-100
-    Mix_VolumeMusic(10);
+    Mix_VolumeMusic(0);
 
+    // хз
+    glClearDepth(1.0);
+    // хз
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    // хз
+    glEnableClientState(GL_COLOR_ARRAY);
+
+    // Задаем что собираемся рисовать треугольник
+    glBegin(GL_TRIANGLES);
+        // Цвет
+        glColor3f(0.0f, 1.0f, 0.0f);
+        // Вершины
+        glVertex2f(0, 0);
+        glVertex2f(0, 500);
+        glVertex2f(500, 500);
+    glEnd();
+
+    // Сменить буффер >> смотри SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1)
+    SDL_GL_SwapWindow(_window);
 }

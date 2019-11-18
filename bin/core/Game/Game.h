@@ -2,10 +2,8 @@
 
 #include "SDL2/SDL.h"
 #include "SDL2/SDL_mixer.h"
-#include "SDL2/SDL_vulkan.h"
-//#include "../Vulkan/Vulkan.cpp"
-#include <iostream>
-#include <string>
+#include "SDL2/SDL_opengl.h"
+#include <GL/glut.h>
 
 enum class GameState {PLAY, EXIT};
 
@@ -30,5 +28,4 @@ private:
     const char* _title;
     Mix_Music* _music;
     GameState _gameState;
-    //Vulkan* renderer;
 };
