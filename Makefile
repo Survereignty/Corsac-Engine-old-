@@ -2,7 +2,7 @@
 CC = g++
 
 # Зависимости
-SOURCES = -lSDL2main -lSDL2 -lSDL2_mixer -lGL -lglut
+SOURCES = -lSDL2main -lSDL2 -lSDL2_mixer -lGL
 
 # build and start
 .PHONY: run
