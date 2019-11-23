@@ -1,10 +1,9 @@
 #include <iostream>
-#include "Game/Game.cpp"
+#include "Game.cpp"
 
 
-int main(int acgc, char** argv) {
+int main() {
     Game Game;
     Game.run();
-
     return 0;
 }
