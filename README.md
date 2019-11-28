@@ -1,23 +1,20 @@
-# Corsac-engine
+# Corsac-game
 
-C++, SDL2, OpenGL - Game engine.
+C++, SDL2- Game engine.
 
 * SDL2 2.0.10(stable)
-* OpenGL 4.6 NVIDIA
 
-# Install
+# DEV
 
 ```bash
 
 sudo apt install libsdl2{,-image,-mixer,-ttf,-gfx}-dev
 
-sudo apt-get install libglew-dev
+git clone https://github.com/Survereignty/Corsac-game.git
 
-git clone https://github.com/Survereignty/Corsac-engine.git
+cd Corsac-game
 
-cd Corsac-engine
-
-# build and run
-make
+make debug // make
+make release
 
 ```
