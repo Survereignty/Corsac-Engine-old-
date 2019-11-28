@@ -2,22 +2,36 @@
 CC = g++
 
 # Зависимости
-SOURCES = -lSDL2main -lSDL2 -lSDL2_mixer
+LIBS = -lSDL2 -lSDL2_mixer -lSDL2_image
 
-# build and start
-.PHONY: run
-run:
-	$(CC) -lm -m64 -o engine ./bin/core/main.cpp $(SOURCES)
-	./engine
+# Debug
+Dpath = ./Debug/bin/CRSC/CRSC
+DSOURCES =  $(Dpath)_Func.cpp $(Dpath).cpp
 
-# build
-.PHONY: build
-build:
-	$(CC) -lm -o engine ./bin/core/main.cpp $(SOURCES)
+.PHONY: debug
+debug:
+	$(CC) -lm ./Debug/main.cpp -fPIC -m64 $(DSOURCES) $(LIBS) -o ./Debug/CorsacGame
+	./Debug/CorsacGame
 
-# start
-.PHONY: start
-start:
-	./engine
+# Release
+Rpath = ./Release/bin/CRSC/CRSC
+RSOURCES = $(Rpath).so $(Rpath)_Func.so
+.PHONY: release
+release:
+	cp ./Debug/main.cpp ./Release
 
-.DEFAULT_GOAL := run
+	cp $(Dpath)_Func.h ./Release/bin/CRSC
+	$(CC) --shared -fPIC $(Dpath)_Func.cpp -o $(Rpath)_Func.so
+	cp $(Dpath).h ./Release/bin/CRSC
+	$(CC) --shared -fPIC $(Dpath).cpp -o $(Rpath).so
+
+	$(CC) -lm ./Release/main.cpp -fPIC -m64 $(RSOURCES) $(LIBS) -o ./Release/CorsacGame
+
+	rm $(Rpath)_Func.h
+	rm $(Rpath).h
+
+	rm ./Release/main.cpp
+
+	./Release/CorsacGame
+
+.DEFAULT_GOAL := debug
