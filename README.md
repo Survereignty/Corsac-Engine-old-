@@ -1,3 +1,7 @@
+# Corsac 2D Game Engine
+
+* Основан на SDL2 2.0.10(stable)
+
 # Необходимые зависимости
 
 ```bash
