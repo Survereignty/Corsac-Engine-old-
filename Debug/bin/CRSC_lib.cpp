@@ -1,27 +1,5 @@
 #include "CRSC_lib.h"
 
-// Получить поверхность
-SDL_Surface* LoadSurface(std::string path)
-{
-    SDL_Surface* loadedSurface = IMG_Load(path.c_str());
-    if( loadedSurface == NULL )
-    {
-        printf( "Unable to load image %s! SDL_image Error: %s\n", path.c_str(), IMG_GetError() );
-    }
-    return loadedSurface;
-}
-
-// Получить текстуру
-SDL_Texture* LoadTexture(SDL_Renderer* render, SDL_Surface* surface)
-{
-    SDL_Texture* newTexture = SDL_CreateTextureFromSurface(render, surface);
-    SDL_FreeSurface(surface);
-    return newTexture;
-}
-
-
-
-
 // Получить ключ ini строчки
 std::string getKeyIni(std::string s)
 {

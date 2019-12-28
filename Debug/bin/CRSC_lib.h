@@ -8,14 +8,9 @@
 
 #include "SDL2/SDL.h"
 #include "SDL2/SDL_image.h"
+#include "SDL2/SDL_ttf.h"
 #include "SDL2/SDL_mixer.h"
 #include "SDL2/SDL_thread.h"
-
-// Получить поверхность
-SDL_Surface* LoadSurface(std::string path);
-
-// Получить текстуру
-SDL_Texture* LoadTexture(SDL_Renderer* render, SDL_Surface* surface);
 
 // Получить ключ ini строчки
 std::string getKeyIni(std::string s);

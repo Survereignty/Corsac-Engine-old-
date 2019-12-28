@@ -13,17 +13,36 @@ sudo apt install libsdl2{,-image,-mixer,-ttf,-gfx}-dev
 
 ```c++
 
-// Инициализация игрового окна и соответсвующих настроек
-CRSC_Engine engine = CRSC_EngineCreate("SkyFort");
+// Создаем объект настроек по умолчанию и ссылку на него
+CRSC_Settings* DefaultSettings = new CRSC_Settings(
+    // [Video]
+    800,    // Ширина экрана
+    600,    // Высота экрана
+    0,      // Полноэкранный режим:         0-нет 1-да
+    0,      // Вертикальная синхронизация:  0-нет 1-да
+    0,      // Ограничения по фпс:          0-нет 1-да
+    30,     // На какое число ограничить
+    1.0,    // Цветовая гамма
+    // [Audio]
+    75,     // Общая громкость:             0 - 100
+    75,     // Громкость музыки:            0 - 100
+    75      // Громкость звуков:            0 - 100
+);
 
-// Инициализация сцены, передайте функцию загрузки, цикла и закрытия
-CRSC_Scene scene = CRSC_SceneCreate(Load, Loop, Destroy);
+// Инициализация игрового окна и соответсвующих настроек
+CRSC_Engine Engine = CRSC_EngineCreate("TestGame", DefaultSettings);
+
+// Инициализация сцены
+CRSC_Scene NewScene = Engine.CreateScene("NewScene");
+
+// Устанавливаем функции: Загрузки, Событий, Действий, Удаления
+NewScene.Methods(Load, Events, Loop, Destroy);
 
 // Запускает сцену
-scene.Play();
+NewScene.Play();
 
 // Останавливает сцену
-scene.Stop();
+NewScene.Stop();
 
 // ----- Потоки --------
 // Создаем поток передавая функцию, тег, данные

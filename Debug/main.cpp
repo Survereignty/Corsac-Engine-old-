@@ -1,37 +1,49 @@
 #include "./bin/CRSC.h"
 
-CRSC_Engine engine = CRSC_EngineCreate("SkyFort");
+CRSC_Settings* DefaultSettings = new CRSC_Settings(
+    // [Video]
+    800,    // Ширина экрана
+    600,    // Высота экрана
+    0,      // Полноэкранный режим:         0-нет 1-да
+    0,      // Вертикальная синхронизация:  0-нет 1-да
+    0,      // Ограничения по фпс:          0-нет 1-да
+    30,     // На какое число ограничить
+    1.0,    // Цветовая гамма
+    // [Audio]
+    75,     // Общая громкость:             0 - 100
+    75,     // Громкость музыки:            0 - 100
+    75      // Громкость звуков:            0 - 100
+);
 
-SDL_Texture* texture;
+CRSC_Engine Engine = CRSC_EngineCreate("TestGame", DefaultSettings);
 
-void Load() {
-    SDL_Surface* surface = LoadSurface("./data/sprites/player.png");
-    texture = LoadTexture(engine.render, surface);
-};
+CRSC_Scene Menu = Engine.CreateScene("Menu");
 
-void Loop() {
-    SDL_RenderClear(engine.render);
-    SDL_RenderCopy(engine.render, texture, NULL, NULL);
-    SDL_RenderPresent(engine.render);
-};
-
-void Destroy() {
-    SDL_DestroyTexture(texture);
-}
-
-CRSC_Scene Menu = engine.CreateScene(Load, Loop, Destroy);
-
-int threadFunction( void* data )
+void Load()
 {
-    printf("Running");
-    SDL_Delay(3000);
-    Menu.Stop();
-    return 0;
-}
+
+};
+
+void Events()
+{
+
+};
+
+void Loop()
+{
+    SDL_RenderClear(Engine.render);
+    SDL_RenderPresent(Engine.render);
+};
+
+void Destroy()
+{
+
+};
 
 int main(int argc, char const *argv[])
 {
-    SDL_Thread* threadID = SDL_CreateThread( threadFunction, "LazyThread", (void*)NULL);
+    Menu.Methods(Load, Events, Loop, Destroy);
+
     Menu.Play();
 
     return 0;
