@@ -177,7 +177,7 @@ CRSC_Engine::~CRSC_Engine()
     SDL_DestroyWindow(window);
     render = NULL;
     window = NULL;
-    TTF_Quit();
+    //TTF_Quit();
     IMG_Quit();
     Mix_Quit();
     SDL_Quit();

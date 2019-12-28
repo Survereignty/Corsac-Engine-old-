@@ -18,9 +18,9 @@ CRSC_Settings* DefaultSettings = new CRSC_Settings(
     // [Video]
     800,    // Ширина экрана
     600,    // Высота экрана
-    0,      // Полноэкранный режим:         0-нет 1-да
-    0,      // Вертикальная синхронизация:  0-нет 1-да
-    0,      // Ограничения по фпс:          0-нет 1-да
+    0,      // Полноэкранный режим:         0-выкл. 1-вкл.
+    0,      // Вертикальная синхронизация:  0-выкл. 1-вкл.
+    0,      // Ограничения по фпс:          0-выкл. 1-вкл.
     30,     // На какое число ограничить
     1.0,    // Цветовая гамма
     // [Audio]
@@ -45,18 +45,40 @@ NewScene.Play();
 NewScene.Stop();
 
 // ----- Потоки --------
-// Создаем поток передавая функцию, тег, данные
-SDL_Thread* MyTread = SDL_CreateThread( threadFunction, "MyTread", (void*)data);
+    // Создаем поток передавая функцию, тег, данные
+    SDL_Thread* MyTread = SDL_CreateThread( threadFunction, "MyTread", (void*)data);
 
-// Пример функции для потока
-int threadFunction( void* data )
-{
-    printf( "Running thread with value = %d\n", (int)data );
-    return 0;
-}
+    // Пример функции для потока
+    int threadFunction( void* data )
+    {
+        printf( "Running thread with value = %d\n", (int)data );
+        return 0;
+    }
 
-// Ожидание окончания потока
-SDL_WaitThread( MyTread, NULL );
+    // Ожидание окончания потока
+    SDL_WaitThread( MyTread, NULL );
 // ----- Потоки --------
+
+```
+
+```Makefile
+# Компилятор
+CC = g++
+
+# Название игры
+GAME = TestGame
+
+# Зависимости
+LIBS = -lSDL2 -lSDL2_mixer -lSDL2_image -lSDL2_ttf
+
+# Debug
+DSOURCES = ./Debug/bin/CRSC.cpp  ./Debug/bin/CRSC_lib.cpp
+
+.PHONY: debug
+debug:
+	$(CC) -lm ./Debug/main.cpp $(DSOURCES) $(LIBS) -o ./Debug/$(GAME)
+	./Debug/$(GAME)
+
+.DEFAULT_GOAL := debug
 
 ```

@@ -2,7 +2,7 @@
 CC = g++
 
 # Название игры
-GAME = test
+GAME = TestGame
 
 # Зависимости
 LIBS = -lSDL2 -lSDL2_mixer -lSDL2_image
