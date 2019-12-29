@@ -9,11 +9,27 @@ sudo apt install libsdl2{,-image,-mixer,-ttf,-gfx}-dev
 
 ```
 
-# Функции и методы CRSC
+# Documentation
 
+Для инициализации окна и поверхности рисования, следует вызвать функцию CRSC_EngineCreate, и передать два аргумента,
+"наименование приложения(const char*)" и "настроики по умолчанию(CRSC_Settings*)":
 ```c++
+CRSC_Engine Engine = CRSC_EngineCreate("TestGame", DefaultSettings);
+```
 
-// Создаем объект настроек по умолчанию и ссылку на него
+Полученный объект содержить свойства:
+```c++
+Engine.window;  // Окно приложения        SDL_Window*
+Engine.render;  // Поверхность рисования  SDL_Renderer*
+Engine.path;    // Путь до папки с игрой  char*
+
+Engine.config;              // Конфигурация                 CRSC_Config
+Engine.config.settings;     // Пользовательские настройки   CRSC_Settings*
+```
+
+Настройки по умолчанию:
+*обязательно должен являться ссылкой.
+```c++
 CRSC_Settings* DefaultSettings = new CRSC_Settings(
     // [Video]
     800,    // Ширина экрана
@@ -28,23 +44,29 @@ CRSC_Settings* DefaultSettings = new CRSC_Settings(
     75,     // Громкость музыки:            0 - 100
     75      // Громкость звуков:            0 - 100
 );
+```
 
-// Инициализация игрового окна и соответсвующих настроек
-CRSC_Engine Engine = CRSC_EngineCreate("TestGame", DefaultSettings);
-
-// Инициализация сцены
+Для создания сцену нужно вызвать метод CreateScene() у раннее инициализованого движка и передать аргумент "название сцены":
+```c++
 CRSC_Scene NewScene = Engine.CreateScene("NewScene");
+```
 
-// Устанавливаем функции: Загрузки, Событий, Действий, Удаления
+Теперь можно передать сцене методы:
+*устанавливаем функции: Загрузки, Событий, Действий, Удаления
+```c++
 NewScene.Methods(Load, Events, Loop, Destroy);
+```
 
+Методы управления сценой:
+```c++
 // Запускает сцену
 NewScene.Play();
-
 // Останавливает сцену
 NewScene.Stop();
+```
 
-// ----- Потоки --------
+Пример работы SDL потоков:
+```c++
     // Создаем поток передавая функцию, тег, данные
     SDL_Thread* MyTread = SDL_CreateThread( threadFunction, "MyTread", (void*)data);
 
@@ -57,9 +79,9 @@ NewScene.Stop();
 
     // Ожидание окончания потока
     SDL_WaitThread( MyTread, NULL );
-// ----- Потоки --------
-
 ```
+
+# Makefile
 
 ```Makefile
 # Компилятор

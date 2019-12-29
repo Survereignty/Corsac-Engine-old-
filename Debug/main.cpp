@@ -43,7 +43,6 @@ void Destroy()
 int main(int argc, char const *argv[])
 {
     Menu.Methods(Load, Events, Loop, Destroy);
-
     Menu.Play();
 
     return 0;

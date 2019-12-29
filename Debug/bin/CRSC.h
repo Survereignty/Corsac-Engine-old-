@@ -139,7 +139,7 @@ public:
 
     SDL_Window*     window;     // Контекст окна
     SDL_Renderer*   render;     // Контекст рендера
-    TTF_Font *      font;       // Шрифт
+    TTF_Font*       font;       // Шрифт
     CRSC_Config     config;     // Настройки приложения
     char*           path;       // Путь до приложения
 
