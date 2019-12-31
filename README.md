@@ -46,7 +46,7 @@ CRSC_Settings* DefaultSettings = new CRSC_Settings(
 );
 ```
 
-Для создания сцену нужно вызвать метод CreateScene() у раннее инициализованого движка и передать аргумент "название сцены":
+Для создания сцены нужно вызвать метод CreateScene() у раннее инициализованого движка и передать аргумент "название сцены":
 ```c++
 CRSC_Scene NewScene = Engine.CreateScene("NewScene");
 ```
@@ -67,18 +67,18 @@ NewScene.Stop();
 
 Пример работы SDL потоков:
 ```c++
-    // Создаем поток передавая функцию, тег, данные
-    SDL_Thread* MyTread = SDL_CreateThread( threadFunction, "MyTread", (void*)data);
+// Создаем поток передавая функцию, тег, данные
+SDL_Thread* MyTread = SDL_CreateThread( threadFunction, "MyTread", (void*)data);
 
-    // Пример функции для потока
-    int threadFunction( void* data )
-    {
-        printf( "Running thread with value = %d\n", (int)data );
-        return 0;
-    }
+// Пример функции для потока
+int threadFunction( void* data )
+{
+    printf( "Running thread with value = %d\n", (int)data );
+    return 0;
+}
 
-    // Ожидание окончания потока
-    SDL_WaitThread( MyTread, NULL );
+// Ожидание окончания потока
+SDL_WaitThread( MyTread, NULL );
 ```
 
 # Makefile

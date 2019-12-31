@@ -5,7 +5,7 @@ CC = g++
 LIBS = -lSDL2 -lSDL2_mixer -lSDL2_image -lSDL2_ttf
 
 # Debug
-DSOURCES = ./bin/CRSC.cpp  ./bin/CRSC_lib.cpp ./bin/AddObject.cpp ./bin/DrawObject.cpp ./bin/Events.cpp ./bin/rect.cpp ./bin/rect_Move.cpp ./bin/rily.cpp ./bin/tringle.cpp ./bin/tringle_Move.cpp
+DSOURCES = ./bin/CRSC.cpp  ./bin/CRSC_lib.cpp
 
 .PHONY: debug
 debug:

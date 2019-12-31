@@ -1,0 +1,3 @@
+[CRASH] Window could not be created! SDL Error: %s
+Window is too large.
+[CRASH] Window could not be created! SDL Error: Window is too large.

@@ -1,5 +1,7 @@
 #include "./bin/CRSC.h"
 
+#include "./bin/rily.h"
+
 CRSC_Settings* DefaultSettings = new CRSC_Settings(
     // [Video]
     800,    // Ширина экрана
@@ -16,12 +18,18 @@ CRSC_Settings* DefaultSettings = new CRSC_Settings(
 );
 
 CRSC_Engine Engine = CRSC_EngineCreate("TestGame", DefaultSettings);
+Rily R(Engine.render);
 
 CRSC_Scene Menu = Engine.CreateScene("Menu");
 
+Rily::Rect* Obj;
+
 void Load()
 {
-
+    Obj = R.CreateRect("VASA", 300, 300, 50, 50);
+    Obj->r = 255;
+    Obj->g = 0;
+    Obj->b = 0;
 };
 
 void Events()
@@ -31,6 +39,7 @@ void Events()
 
 void Loop()
 {
+    R.DrawingObjects();
     SDL_RenderClear(Engine.render);
     SDL_RenderPresent(Engine.render);
 };
