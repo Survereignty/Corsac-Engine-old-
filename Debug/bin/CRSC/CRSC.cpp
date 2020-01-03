@@ -145,9 +145,9 @@ void CRSC_Engine::Setup()
     setFullScreen(false);
     if (Sdl.CreateRenderer()) Logs.Set("Renderer could not be created! SDL Error: ", SDL_GetError());
 };
-CRSC_Scene CRSC_Engine::CreateScene(std::string name) {
-    CRSC_Scene scene(name, Sdl.Renderer);
-    return scene;
+SDL_Renderer* CRSC_Engine::getRenderer()
+{
+    return Sdl.Renderer;
 }
 void CRSC_Engine::setAutoSizes()
 {

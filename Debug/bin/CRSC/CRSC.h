@@ -93,10 +93,9 @@ public:
     CRSC_Engine(const char* GameName, const char* OrgName);
     ~CRSC_Engine();
 
+    SDL_Renderer* getRenderer();
     void setAutoSizes(); // Определить экран игрока и установить размеры
     void setFullScreen(bool permanently = true); // Установить настройки
-
-    CRSC_Scene CreateScene(std::string name);   // Создать сцену
 
     CRSC_Store    Store;   // Хранилище данных игры
     CRSC_GameInfo Info;    // Информация о проекте

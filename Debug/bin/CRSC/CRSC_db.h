@@ -71,30 +71,24 @@ class CRSC_Scene
 {
 private:
     // Состояние сцены
-    SDL_Renderer* Renderer;
     int state;
-    std::string name;
     // Загрузка сцены
-    void Loading(void (*callback)());
+    virtual void Loading() = 0;
     // Цикл событий
-    void Events(void (*callback)());
+    virtual void Events() = 0;
     // Цикл сцены
-    void Loop(void (*callback)());
+    virtual void Loop() = 0;
     // Закрытие сцены
-    void Destroy(void (*callback)());
+    virtual void Destroy() = 0;
 
-    void (*cbload)();  // Загрузка сцены
-    void (*cbevent)(); // Цикл событий
-    void (*cbloop)();  // Цикл сцены
-    void (*cbdest)();  // Закрытие сцены
 public:
+    SDL_Renderer* Renderer;
     SDL_Event e;
 
     void Play(); // Запустить сцену
     void Stop(); // Остановить сцену
 
-    void Methods(void (*callbackLoading)(), void (*callbackEvent)(), void (*callbackLoop)(), void (*callbackDestroy)());
-    CRSC_Scene(std::string name, SDL_Renderer* Renderer);
+    CRSC_Scene(SDL_Renderer* Renderer);
     CRSC_Scene();
     ~CRSC_Scene();
 };

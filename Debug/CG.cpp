@@ -2,31 +2,41 @@
 
 CRSC_Engine Engine = CRSC_Init("CG", "Corsac");
 
-CRSC_Scene Scene = Engine.CreateScene("Scene");
-
-void Loading()
+class Menu : public CRSC_Scene
 {
+private:
 
-}
+public:
+    Menu(SDL_Renderer* Renderer)
+    {
+        this->Renderer = Renderer;
+    };
+    ~Menu(){};
+    void Loading()
+    {
 
-void Event()
-{
+    };
+    void Events()
+    {
 
-}
+    };
+    void Loop()
+    {
 
-void Loop()
-{
+    };
+    void Destroy()
+    {
 
-}
+    }
+};
 
-void Destroy()
-{
-
-}
 
 int main(int argc, char const *argv[])
 {
-    Scene.Methods(Loading, Event, Loop, Destroy);
-    Scene.Play();
+    SDL_Renderer* R = Engine.getRenderer();
+    Menu menu(R);
+
+    menu.Play();
+
     return 0;
 };
