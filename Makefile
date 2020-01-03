@@ -2,17 +2,39 @@
 CC = g++
 
 # Название игры
-GAME = TestGame
+GAME = CG
 
 # Зависимости
-LIBS = -lSDL2 -lSDL2_mixer -lSDL2_image
+LIBS = -lSDL2 -lSDL2_mixer -lSDL2_image -lSDL2_ttf
 
-# Debug
-DSOURCES = ./Debug/bin/CRSC.cpp  ./Debug/bin/CRSC_lib.cpp
+# /////////////////////// Debug /////////////////////////
+DebugSOURCES = ./Debug/bin/CRSC/CRSC.cpp ./Debug/bin/CRSC/CRSC_db.cpp
 
 .PHONY: debug
 debug:
-	$(CC) -lm ./Debug/main.cpp $(DSOURCES) $(LIBS) -o ./Debug/$(GAME)
+	$(CC) -lm ./Debug/CG.cpp $(DebugSOURCES) $(LIBS) -o ./Debug/$(GAME)
 	./Debug/$(GAME)
+
+# /////////////////////// Dist /////////////////////////
+DistSOURCES = ./Dist/bin/CRSC/CRSC.so ./Dist/bin/CRSC/CRSC_db.cpp
+
+.PHONY: builddist
+builddist:
+	rm -rf ./Dist
+	mkdir Dist
+	cp -r ./Debug/bin/CRSC ./Dist
+	cp ./Debug/CG.cpp ./Dist
+
+	$(CC) -fpic -c ./Dist/bin/CRSC/CRSC.cpp -o ./Dist/bin/CRSC/CRSC.so
+	rm ./Dist/bin/CRSC/CRSC.cpp
+
+	$(CC) -lm ./Dist/CG.cpp $(DistSOURCES) $(LIBS) -o ./Dist/$(GAME)
+
+.PHONY: dist
+dist:
+	$(CC) -lm ./Dist/CG.cpp $(DistSOURCES) $(LIBS) -o ./Dist/$(GAME)
+	./Dist/$(GAME)
+
+# /////////////////////// Release /////////////////////////
 
 .DEFAULT_GOAL := debug
