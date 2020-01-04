@@ -1,9 +1,12 @@
 #include "./bin/CRSC/CRSC.h"
 
+#include "./bin/Rily/rily.h"
+
 CRSC_Engine Engine = CRSC_Init("CG", "Corsac");
 SDL_Renderer* R = Engine.getRenderer();
 
 CRSC_Img* i = Engine.getImg();
+Rily r(R);
 
 class Menu : public CRSC_Scene
 {
@@ -56,55 +59,11 @@ public:
     ~Menu(){};
 };
 
-class Game : public CRSC_Scene
-{
-private:
-    void Loading()
-    {
-
-    };
-
-    void Events()
-    {
-        switch (e.type) {
-            case SDL_QUIT:
-                Stop();
-                break;
-            case SDL_KEYDOWN:
-                switch (e.key.keysym.scancode) {
-                    case SDL_SCANCODE_ESCAPE:
-                        Stop();
-                        break;
-                    default:
-                        break;
-                }
-            case SDL_KEYUP:
-                break;
-            default: break;
-        }
-    }
-
-    void Loop()
-    {
-        i->DrawingObjects();
-    }
-
-    void Destroy()
-    {
-        i->DestroyObjects();
-    }
-public:
-    Game(){};
-    ~Game(){};
-};
-
 int main(int argc, char const *argv[])
 {
     Menu menu;
     Game game;
 
-    menu.Play();
-    game.Play();
     menu.Play();
 
     return 0;
