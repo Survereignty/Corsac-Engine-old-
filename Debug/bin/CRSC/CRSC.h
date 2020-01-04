@@ -46,6 +46,14 @@ class CRSC_Object
 {
 private:
 public:
+    // Установить цветовой фильтр
+    void setColor(Uint8 red, Uint8 green, Uint8 blue);
+    // Установить прозрачность
+    void setAlpha(Uint8 alpha);
+
+    double angle;
+    SDL_Point* center;
+    SDL_RendererFlip flip;
     SDL_Texture* tex;
     SDL_Rect* rect;
     CRSC_Object(SDL_Rect* rect, SDL_Texture* tex);
@@ -66,7 +74,7 @@ private:
 
     int Init(SDL_Renderer* R, CRSC_Logs* Logs);
 public:
-    CRSC_Object* CreateObject(std::string path, int x, int y, int w, int h);
+    CRSC_Object* CreateObject(std::string path, int x, int y, int w, int h, double angle = 0.0, SDL_Point* center = NULL, SDL_RendererFlip flip = SDL_FLIP_NONE);
 
     void DrawingObjects();
     void DestroyObjects();

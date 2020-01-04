@@ -1,12 +1,12 @@
 #include "./bin/CRSC/CRSC.h"
 
-#include "./bin/Rily/rily.h"
+//#include "./bin/Rily/rily.h"
 
 CRSC_Engine Engine = CRSC_Init("CG", "Corsac");
 SDL_Renderer* R = Engine.getRenderer();
 
 CRSC_Img* i = Engine.getImg();
-Rily r(R);
+//Rily r(R);
 
 class Menu : public CRSC_Scene
 {
@@ -18,6 +18,9 @@ private:
     {
         background = i->CreateObject("background", 0, 0, Engine.Video.screenWidth, Engine.Video.screenHeight);
         foo = i->CreateObject("foo", 240, 190, 170, 300);
+
+        background->setColor(0, 255, 0);
+        foo->setAlpha(100);
     };
 
     void Events()
@@ -44,8 +47,14 @@ private:
     {
         if (SDL_GetKeyboardState(nullptr)[SDL_SCANCODE_W]) foo->rect->y -= 1;
         if (SDL_GetKeyboardState(nullptr)[SDL_SCANCODE_S]) foo->rect->y += 1;
-        if (SDL_GetKeyboardState(nullptr)[SDL_SCANCODE_A]) foo->rect->x -= 1;
-        if (SDL_GetKeyboardState(nullptr)[SDL_SCANCODE_D]) foo->rect->x += 1;
+        if (SDL_GetKeyboardState(nullptr)[SDL_SCANCODE_A]) {
+            foo->rect->x -= 1;
+            foo->flip = SDL_FLIP_NONE;
+        }
+        if (SDL_GetKeyboardState(nullptr)[SDL_SCANCODE_D]) {
+            foo->rect->x += 1;
+            foo->flip = SDL_FLIP_HORIZONTAL;
+        }
         i->DrawingObjects();
         SDL_Delay(3);
     }
@@ -62,7 +71,6 @@ public:
 int main(int argc, char const *argv[])
 {
     Menu menu;
-    Game game;
 
     menu.Play();
 

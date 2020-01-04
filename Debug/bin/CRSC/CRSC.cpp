@@ -71,6 +71,15 @@ CRSC_Sdl::~CRSC_Sdl()
 ////////////////////////////////////////////////////////////////////////////////////////////
 
 // Объект
+void CRSC_Object::setColor( Uint8 red, Uint8 green, Uint8 blue )
+{
+    SDL_SetTextureColorMod(tex, red, green, blue);
+}
+void CRSC_Object::setAlpha(Uint8 alpha)
+{
+    SDL_SetTextureBlendMode(tex, SDL_BLENDMODE_BLEND);
+    SDL_SetTextureAlphaMod(tex, alpha);
+}
 CRSC_Object::CRSC_Object(SDL_Rect* rect, SDL_Texture* tex)
 {
     this->rect = rect;
@@ -92,7 +101,7 @@ void CRSC_Img::DrawingObjects()
 {
     for (CRSC_Object* item : this->texs)
     {
-        SDL_RenderCopy(R, item->tex, NULL, item->rect);
+        SDL_RenderCopyEx(R, item->tex, NULL, item->rect, item->angle, item->center, item->flip);
     }
     SDL_RenderPresent(R);
 };
@@ -107,7 +116,7 @@ void CRSC_Img::DestroyObjects()
     }
     this->texs.clear();
 };
-CRSC_Object* CRSC_Img::CreateObject(std::string p, int x, int y, int w, int h)
+CRSC_Object* CRSC_Img::CreateObject(std::string p, int x, int y, int w, int h, double angle, SDL_Point* center, SDL_RendererFlip flip)
 {
     SDL_Texture* n = NULL;
     std::string path = Flags.pathToSprite + p + Flags.format;
@@ -120,6 +129,7 @@ CRSC_Object* CRSC_Img::CreateObject(std::string p, int x, int y, int w, int h)
         r->x = x; r->y = y;
         r->w = w; r->h = h;
     CRSC_Object* obj = new CRSC_Object(r, n);
+    obj->angle = angle; obj->center = center; obj->flip = flip;
     this->texs.push_back(obj);
     return obj;
 }

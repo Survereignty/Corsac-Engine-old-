@@ -47,9 +47,9 @@ struct CRSC_GameInfo
 // Настройки видео
 struct CRSC_Video
 {
-    int     screenWidth     = 1920;  // Ширина экрана
-    int     screenHeight    = 1080;  // Высота экрана
-    bool    fullScreen      = true;// Полноэкранный режим:         0-нет 1-да
+    int     screenWidth     = 1200;  // Ширина экрана
+    int     screenHeight    = 800;  // Высота экрана
+    bool    fullScreen      = false;// Полноэкранный режим:         0-нет 1-да
     bool    presentvsync    = false;// Вертикальная синхронизация:  0-нет 1-да
     bool    fpsOut          = false;// Ограничения по фпс:          0-нет 1-да
     int     maxFps          = 30;   // На какое число ограничить фпс
