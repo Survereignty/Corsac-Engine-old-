@@ -2,16 +2,11 @@
 
 CRSC_Engine Engine = CRSC_Init("CG", "Corsac");
 
+CRSC_Img* img = Engine.getImg();
+
 class Menu : public CRSC_Scene
 {
 private:
-
-public:
-    Menu(SDL_Renderer* Renderer)
-    {
-        this->Renderer = Renderer;
-    };
-    ~Menu(){};
     void Loading()
     {
 
@@ -28,13 +23,16 @@ public:
     {
 
     }
+public:
+    Menu(){};
+    ~Menu(){};
 };
 
 
 int main(int argc, char const *argv[])
 {
-    SDL_Renderer* R = Engine.getRenderer();
-    Menu menu(R);
+
+    Menu menu;
 
     menu.Play();
 

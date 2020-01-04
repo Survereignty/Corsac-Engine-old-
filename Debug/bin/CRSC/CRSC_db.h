@@ -20,6 +20,22 @@ struct CRSC_LogsFlags
     const char* PATH            = strcat(SDL_GetBasePath(), "logs.txt");
 };
 
+struct CRSC_ImgFlags
+{
+    IMG_InitFlags flags = IMG_INIT_PNG;
+    std::string   pathToSprite = strcat(SDL_GetBasePath(), "data/sprites/");
+    std::string   format = ".png";
+};
+
+struct CRSC_AudioFlags
+{
+    MIX_InitFlags flags = MIX_INIT_MP3;
+    int frequency = MIX_DEFAULT_FREQUENCY; // Частота
+    Uint16 format = MIX_DEFAULT_FORMAT;    // Формат
+    int channels = 2;                      // Каналы
+    int chunksize = 1024;                  // Размер
+};
+
 struct CRSC_GameInfo
 {
     const char*     GameName; // Название игры
@@ -51,15 +67,6 @@ struct CRSC_Audio
     bool muteSounds = false;
 };
 
-struct CRSC_AudioFormat
-{
-    MIX_InitFlags flags = MIX_INIT_MP3;
-    int frequency = MIX_DEFAULT_FREQUENCY; // Частота
-    Uint16 format = MIX_DEFAULT_FORMAT;    // Формат
-    int channels = 2;                      // Каналы
-    int chunksize = 1024;                  // Размер
-};
-
 // Настройки игры
 struct CRSC_Gameplay{};
 
@@ -82,13 +89,12 @@ private:
     virtual void Destroy() = 0;
 
 public:
-    SDL_Renderer* Renderer;
+    SDL_Renderer* R;
     SDL_Event e;
 
     void Play(); // Запустить сцену
     void Stop(); // Остановить сцену
 
-    CRSC_Scene(SDL_Renderer* Renderer);
     CRSC_Scene();
     ~CRSC_Scene();
 };

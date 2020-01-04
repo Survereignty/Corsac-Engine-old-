@@ -1,0 +1,7 @@
+[ERROR] Unable to load image %s! SDL_image Error: %s
+player.pngCouldn't open player.png
+[ERROR] Unable to create texture from %s! SDL Error: %s
+player.pngInvalid renderer
+[ERROR] Unable to load image! SDL_image Error:player.png Couldn't open player.png
+[ERROR] Unable to create texture from! SDL Error:player.png Invalid renderer
+[ERROR] Unable to load image! SDL_image Error: player.png Couldn't open player.png

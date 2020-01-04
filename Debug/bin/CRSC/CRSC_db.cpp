@@ -3,12 +3,6 @@
 ////////////////////////////////////////////////////////////////////////////////////////////
 
 // Игровая сцена
-CRSC_Scene::CRSC_Scene(
-    SDL_Renderer*   Renderer
-) {
-    state = 0;
-    this->Renderer = Renderer;
-};
 CRSC_Scene::CRSC_Scene()
 {
     state = 0;
@@ -28,7 +22,6 @@ void CRSC_Scene::Play()
             Events();
         }
         Loop();
-        SDL_RenderPresent(Renderer);
     }
     Destroy();
 }

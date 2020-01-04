@@ -71,15 +71,24 @@ CRSC_Sdl::~CRSC_Sdl()
 ////////////////////////////////////////////////////////////////////////////////////////////
 
 // Центр управления SDL_IMG
-int CRSC_Img::Init()
+int CRSC_Img::Init(SDL_Renderer* R, CRSC_Logs* Logs)
 {
-    if (!(IMG_Init(ImgFlags) & ImgFlags)) return 1;
+    if (!(IMG_Init(Flags.flags) & Flags.flags)) return 1;
+    this->R = R;
+    this->Logs = Logs;
     return 0;
 };
-CRSC_Img::CRSC_Img()
+SDL_Texture* CRSC_Img::LoadTexture(std::string p)
 {
-    ImgFlags = IMG_INIT_PNG;
-};
+    SDL_Texture* n = NULL;
+    std::string path = Flags.pathToSprite + p;
+    SDL_Surface* l = IMG_Load(path.c_str());
+    if(l == NULL) Logs->Set("Unable to load image! SDL_image Error: ", path + " " + IMG_GetError());
+    n = SDL_CreateTextureFromSurface(R, l);
+    SDL_FreeSurface(l);
+    return n;
+}
+CRSC_Img::CRSC_Img(){};
 CRSC_Img::~CRSC_Img()
 {
     IMG_Quit();
@@ -134,9 +143,6 @@ void CRSC_Engine::Setup()
 {
     // Запуск всех модулей
     if (Sdl.Init()) Logs.Set("SDL could not initialize! SDL_Error: ", SDL_GetError());
-    if (Img.Init()) Logs.Set("SDL_image could not initialize! SDL_image Error: ", SDL_GetError());
-    if (Mix.Init()) Logs.Set("SDL_mix could not initialize! SDL_Error: ", SDL_GetError());
-    if (Ttf.Init()) Logs.Set("SDL_ttf could not initialize! SDL_ttf Error: ", SDL_GetError());
     //setAutoSizes();
     if (Sdl.CreateWindow(Info.GameName,
         Video.screenWidth,
@@ -144,11 +150,19 @@ void CRSC_Engine::Setup()
     )) Logs.Set("Window could not be created! SDL Error: ", SDL_GetError());
     setFullScreen(false);
     if (Sdl.CreateRenderer()) Logs.Set("Renderer could not be created! SDL Error: ", SDL_GetError());
+
+    if (Img.Init(Sdl.Renderer, &Logs)) Logs.Set("SDL_image could not initialize! SDL_image Error: ", SDL_GetError());
+    if (Mix.Init()) Logs.Set("SDL_mix could not initialize! SDL_Error: ", SDL_GetError());
+    if (Ttf.Init()) Logs.Set("SDL_ttf could not initialize! SDL_ttf Error: ", SDL_GetError());
+};
+CRSC_Img* CRSC_Engine::getImg()
+{
+    return &Img;
 };
 SDL_Renderer* CRSC_Engine::getRenderer()
 {
     return Sdl.Renderer;
-}
+};
 void CRSC_Engine::setAutoSizes()
 {
     SDL_DisplayMode dm;

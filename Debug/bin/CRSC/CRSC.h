@@ -45,19 +45,26 @@ public:
 class CRSC_Img
 {
 private:
-    IMG_InitFlags ImgFlags; // Флаги для SDL_IMG
-public:
-    int Init();
+    SDL_Renderer* R;
 
+    CRSC_ImgFlags Flags;
+
+    CRSC_Logs* Logs; // Центр хранения и управления логами
+
+    int Init(SDL_Renderer* R, CRSC_Logs* Logs);
+public:
+    SDL_Texture* LoadTexture(std::string path);
     CRSC_Img();
     ~CRSC_Img();
+
+    friend class CRSC_Engine;
 };
 
 // Центр управления SDL_MIX
 class CRSC_Mix
 {
 private:
-    CRSC_AudioFormat Format;
+    CRSC_AudioFlags Format;
 public:
     int Init();
 
@@ -90,10 +97,14 @@ private:
 
     void Setup();      // Запустить игру
 public:
+
     CRSC_Engine(const char* GameName, const char* OrgName);
     ~CRSC_Engine();
 
-    SDL_Renderer* getRenderer();
+    SDL_Renderer*   getRenderer();
+    CRSC_Logs*      getLogs();
+    CRSC_Img*       getImg();
+
     void setAutoSizes(); // Определить экран игрока и установить размеры
     void setFullScreen(bool permanently = true); // Установить настройки
 
