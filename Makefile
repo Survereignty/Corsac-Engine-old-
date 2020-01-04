@@ -8,7 +8,7 @@ GAME = CG
 LIBS = -lSDL2 -lSDL2_mixer -lSDL2_image -lSDL2_ttf
 
 # /////////////////////// Debug /////////////////////////
-DebugSOURCES = ./Debug/bin/CRSC/CRSC.cpp ./Debug/bin/CRSC/CRSC_db.cpp ./Debug/bin/Rily/AddObject.cpp ./Debug/bin/Rily/DrawObject.cpp ./Debug/bin/Rily/Events.cpp ./Debug/bin/Rily/rect.cpp ./Debug/bin/Rily/rect_Move.cpp ./Debug/bin/Rily/rily.cpp ./Debug/bin/Rily/tringle.cpp ./Debug/bin/Rily/tringle_Move.cpp
+DebugSOURCES = ./Debug/bin/CRSC/CRSC.cpp ./Debug/bin/CRSC/CRSC_db.cpp #./Debug/bin/Rily/AddObject.cpp ./Debug/bin/Rily/DrawObject.cpp ./Debug/bin/Rily/Events.cpp ./Debug/bin/Rily/rect.cpp ./Debug/bin/Rily/rect_Move.cpp ./Debug/bin/Rily/rily.cpp ./Debug/bin/Rily/tringle.cpp ./Debug/bin/Rily/tringle_Move.cpp
 
 .PHONY: debug
 debug:

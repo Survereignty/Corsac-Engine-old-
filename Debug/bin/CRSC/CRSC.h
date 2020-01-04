@@ -41,6 +41,18 @@ public:
     ~CRSC_Sdl();
 };
 
+// Объект
+class CRSC_Object
+{
+private:
+public:
+    SDL_Texture* tex;
+    SDL_Rect* rect;
+    CRSC_Object(SDL_Rect* rect, SDL_Texture* tex);
+    ~CRSC_Object();
+};
+
+
 // Центр управления SDL_IMG
 class CRSC_Img
 {
@@ -50,9 +62,15 @@ private:
 
     CRSC_ImgFlags Flags;
 
+    std::vector<CRSC_Object*> texs;
+
     int Init(SDL_Renderer* R, CRSC_Logs* Logs);
 public:
-    SDL_Texture* LoadTexture(std::string path);
+    CRSC_Object* CreateObject(std::string path, int x, int y, int w, int h);
+
+    void DrawingObjects();
+    void DestroyObjects();
+
     CRSC_Img();
     ~CRSC_Img();
 

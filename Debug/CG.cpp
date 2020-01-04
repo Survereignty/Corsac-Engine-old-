@@ -1,51 +1,110 @@
 #include "./bin/CRSC/CRSC.h"
 
-#include "./bin/Rily/rily.h"
-
 CRSC_Engine Engine = CRSC_Init("CG", "Corsac");
 SDL_Renderer* R = Engine.getRenderer();
-Rily r(R);
 
-CRSC_Img* img = Engine.getImg();
+CRSC_Img* i = Engine.getImg();
 
 class Menu : public CRSC_Scene
 {
 private:
-    Rect *obj, *obj2;
+    CRSC_Object* background;
+    CRSC_Object* foo;
+
     void Loading()
     {
-        obj   = r.CreateRect("1", 0, 0, Engine.Video.screenWidth, Engine.Video.screenHeight, 0, 0, 0, 255); 
-        obj2  = r.CreateRect("1", 100, 100, 50, 50, 255, 0, 0, 255);
-        auto Click = [this]()
-        {
-            this->obj2->Color(0, 255, 0, 255);
-        };
-        r.DownClick(obj2, Click);
+        background = i->CreateObject("background", 0, 0, Engine.Video.screenWidth, Engine.Video.screenHeight);
+        foo = i->CreateObject("foo", 240, 190, 170, 300);
     };
 
     void Events()
     {
-        r.ChekEvent(e);
+        switch (e.type) {
+            case SDL_QUIT:
+                Stop();
+                break;
+            case SDL_KEYDOWN:
+                switch (e.key.keysym.scancode) {
+                    case SDL_SCANCODE_ESCAPE:
+                        Stop();
+                        break;
+                    default:
+                        break;
+                }
+            case SDL_KEYUP:
+                break;
+            default: break;
+        }
     }
 
     void Loop()
     {
-        r.DrawingObjects();
+        if (SDL_GetKeyboardState(nullptr)[SDL_SCANCODE_W]) foo->rect->y -= 1;
+        if (SDL_GetKeyboardState(nullptr)[SDL_SCANCODE_S]) foo->rect->y += 1;
+        if (SDL_GetKeyboardState(nullptr)[SDL_SCANCODE_A]) foo->rect->x -= 1;
+        if (SDL_GetKeyboardState(nullptr)[SDL_SCANCODE_D]) foo->rect->x += 1;
+        i->DrawingObjects();
+        SDL_Delay(3);
     }
 
     void Destroy()
     {
-
+        i->DestroyObjects();
     }
 public:
     Menu(){};
     ~Menu(){};
 };
 
+class Game : public CRSC_Scene
+{
+private:
+    void Loading()
+    {
+
+    };
+
+    void Events()
+    {
+        switch (e.type) {
+            case SDL_QUIT:
+                Stop();
+                break;
+            case SDL_KEYDOWN:
+                switch (e.key.keysym.scancode) {
+                    case SDL_SCANCODE_ESCAPE:
+                        Stop();
+                        break;
+                    default:
+                        break;
+                }
+            case SDL_KEYUP:
+                break;
+            default: break;
+        }
+    }
+
+    void Loop()
+    {
+        i->DrawingObjects();
+    }
+
+    void Destroy()
+    {
+        i->DestroyObjects();
+    }
+public:
+    Game(){};
+    ~Game(){};
+};
 
 int main(int argc, char const *argv[])
 {
     Menu menu;
+    Game game;
+
+    menu.Play();
+    game.Play();
     menu.Play();
 
     return 0;

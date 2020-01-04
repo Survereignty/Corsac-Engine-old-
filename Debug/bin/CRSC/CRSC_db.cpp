@@ -15,10 +15,6 @@ void CRSC_Scene::Play()
     {
         while (SDL_PollEvent(&e) != 0)
         {
-            if (e.type == SDL_QUIT)
-            {
-                Stop();
-            }
             Events();
         }
         Loop();

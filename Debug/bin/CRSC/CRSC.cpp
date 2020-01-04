@@ -70,6 +70,16 @@ CRSC_Sdl::~CRSC_Sdl()
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 
+// Объект
+CRSC_Object::CRSC_Object(SDL_Rect* rect, SDL_Texture* tex)
+{
+    this->rect = rect;
+    this->tex = tex;
+}
+CRSC_Object::~CRSC_Object(){}
+
+////////////////////////////////////////////////////////////////////////////////////////////
+
 // Центр управления SDL_IMG
 int CRSC_Img::Init(SDL_Renderer* R, CRSC_Logs* Logs)
 {
@@ -78,15 +88,40 @@ int CRSC_Img::Init(SDL_Renderer* R, CRSC_Logs* Logs)
     this->Logs = Logs;
     return 0;
 };
-SDL_Texture* CRSC_Img::LoadTexture(std::string p)
+void CRSC_Img::DrawingObjects()
+{
+    for (CRSC_Object* item : this->texs)
+    {
+        SDL_RenderCopy(R, item->tex, NULL, item->rect);
+    }
+    SDL_RenderPresent(R);
+};
+void CRSC_Img::DestroyObjects()
+{
+    SDL_SetRenderDrawColor(R, 0, 0, 0, 255);
+    SDL_RenderClear(R);
+    for (CRSC_Object* item : this->texs)
+    {
+        SDL_DestroyTexture(item->tex);
+        delete item;
+    }
+    this->texs.clear();
+};
+CRSC_Object* CRSC_Img::CreateObject(std::string p, int x, int y, int w, int h)
 {
     SDL_Texture* n = NULL;
-    std::string path = Flags.pathToSprite + p;
+    std::string path = Flags.pathToSprite + p + Flags.format;
     SDL_Surface* l = IMG_Load(path.c_str());
     if(l == NULL) Logs->Set("Unable to load image! SDL_image Error: ", path + " " + IMG_GetError());
+    SDL_SetColorKey(l, SDL_TRUE, SDL_MapRGB( l->format, 0, 0xFF, 0xFF));
     n = SDL_CreateTextureFromSurface(R, l);
     SDL_FreeSurface(l);
-    return n;
+    SDL_Rect* r = new SDL_Rect();
+        r->x = x; r->y = y;
+        r->w = w; r->h = h;
+    CRSC_Object* obj = new CRSC_Object(r, n);
+    this->texs.push_back(obj);
+    return obj;
 }
 CRSC_Img::CRSC_Img(){};
 CRSC_Img::~CRSC_Img()
@@ -144,14 +179,16 @@ void CRSC_Engine::Setup()
     // Запуск всех модулей
     if (Sdl.Init()) Logs.Set("SDL could not initialize! SDL_Error: ", SDL_GetError());
     //setAutoSizes();
+    if (!SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, "1" )) Logs.Set("Warning: Linear texture filtering not enabled!", "");
     if (Sdl.CreateWindow(Info.GameName,
         Video.screenWidth,
         Video.screenHeight
     )) Logs.Set("Window could not be created! SDL Error: ", SDL_GetError());
     setFullScreen(false);
     if (Sdl.CreateRenderer()) Logs.Set("Renderer could not be created! SDL Error: ", SDL_GetError());
-
     if (Img.Init(Sdl.Renderer, &Logs)) Logs.Set("SDL_image could not initialize! SDL_image Error: ", SDL_GetError());
+    SDL_SetRenderDrawColor(Sdl.Renderer, 0, 0, 0, 255);
+    SDL_RenderClear(Sdl.Renderer);
     if (Mix.Init()) Logs.Set("SDL_mix could not initialize! SDL_Error: ", SDL_GetError());
     if (Ttf.Init()) Logs.Set("SDL_ttf could not initialize! SDL_ttf Error: ", SDL_GetError());
 };
