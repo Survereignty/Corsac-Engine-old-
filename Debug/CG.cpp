@@ -15,12 +15,28 @@ private:
     void Loading()
     {
         obj   = r.CreateRect("1", 0, 0, Engine.Video.screenWidth, Engine.Video.screenHeight, 0, 0, 0, 255); 
-        obj2  = r.CreateRect("1", 100, 100, 50, 50, 255, 0, 0, 255);
-        auto Click = [this]()
+        obj2  = r.CreateRect("1", 100, 100, 50, 50, 100, 100, 100, 255);
+        
+        auto On = [this]()
         {
-            this->obj2->Color(0, 255, 0, 255);
+            if(this->obj2->r<200) this->obj2->r+=10;
+            if(this->obj2->g<150) this->obj2->g+=20;
+            if(this->obj2->b>30)  this->obj2->b-=15;
         };
-        r.DownClick(obj2, Click);
+
+        auto ClickD = [this]()
+        {
+            obj2->Color(0, 0, 0);
+        };
+
+        auto ClickU = [this]()
+        {
+            obj2->Color(100, 100, 100);
+        };
+
+        r.UpClick(obj2, ClickU);
+        r.OnMouse(obj2, On);
+        r.DownClick(obj2, ClickD);
     };
 
     void Events()
