@@ -11,59 +11,59 @@
 
 class Rily;
 
-class Rect									// Класс параллелограмма
+class FigurePrivate
 {
-	private:
-		int size_x, size_y, number;
-		Uint8 const_r, const_g, const_b, const_a;
+	public:
 		std::string name;
+		Uint8 const_r, const_g, const_b, const_a;
+
+		bool 	OB = false,
+				OD = false;
 
 		std::function<void(void)> DC;
 		std::function<void(void)> OM;
 		std::function<void(void)> UC;
 
-		bool 	OB = false,
-				OD = false;
+		void DefaultColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a);
+};
+
+class FigurePublic
+{
+	public:
+		Uint8 r, g, b, a;
+
+		void Color(Uint8 r, Uint8 g, Uint8 b, Uint8 a = 255);
+};
+
+class Rect: public FigurePublic, private FigurePrivate								// Класс параллелограмма
+{
+	private:
+		int size_x, size_y, number;
 
 		void Draw(SDL_Renderer *R);
 		void MoveFinal(int x, int y, int speed_x, int speed_y);
 
 	public:
 		int x, y;
-		Uint8 r, g, b, a;
 
 		void Move(int x, int y, int speed);
-		void Color(Uint8 r, Uint8 g, Uint8 b, Uint8 a = 255);
-		void DefaultColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a);
+		
 		Rect(std::string name, int size_x, int size_y, int x, int y, Uint8 r, Uint8 g, Uint8 b, Uint8 a);
 
 		friend class Rily;
 };
 
-class Tringle								// Класс Треугольника
+class Tringle: public FigurePublic, private FigurePrivate								// Класс Треугольника
 {
 	private:
 		int ax, ay, bx, by, cx, cy, center_x, center_y, number;
-		Uint8 const_r, const_g, const_b, const_a;
-		std::string name;
-
-		std::function<void(void)> DC;
-		std::function<void(void)> OM;
-		std::function<void(void)> UC;
-
-		bool 	OB = false,
-				OD = false;
 		
-		void Color(Uint8 r, Uint8 g, Uint8 b, Uint8 a = 255);
 		void Draw(SDL_Renderer *R);
 		void MoveFinal(int x, int y, int speed_x, int speed_y);
 
 	public:
-		Uint8 r, g, b, a;
-
 
 		void Move(int x, int y, int speed);
-		void DefaultColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a);
 		Tringle(std::string name, int ax, int ay, int bx, int by, int cx, int cy, Uint8 r, Uint8 g, Uint8 b, Uint8 a);
 		
 		friend class Rily;

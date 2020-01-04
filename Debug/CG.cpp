@@ -11,24 +11,28 @@ CRSC_Img* img = Engine.getImg();
 class Menu : public CRSC_Scene
 {
 private:
-    Rect* obj;
+    Rect *obj, *obj2;
     void Loading()
     {
-        obj = r.CreateRect("1", 100, 100, 50, 50, 255, 0, 0, 255);
+        obj   = r.CreateRect("1", 0, 0, Engine.Video.screenWidth, Engine.Video.screenHeight, 0, 0, 0, 255); 
+        obj2  = r.CreateRect("1", 100, 100, 50, 50, 255, 0, 0, 255);
         auto Click = [this]()
         {
-            this->obj->Color(0, 255, 0, 255);
+            this->obj2->Color(0, 255, 0, 255);
         };
-        r.DownClick(obj, Click);
+        r.DownClick(obj2, Click);
     };
+
     void Events()
     {
         r.ChekEvent(e);
-    };
+    }
+
     void Loop()
     {
         r.DrawingObjects();
-    };
+    }
+
     void Destroy()
     {
 

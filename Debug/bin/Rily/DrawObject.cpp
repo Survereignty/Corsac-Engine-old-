@@ -35,7 +35,7 @@ void Rily::DrawingObjects()
 	SDL_RenderPresent(this->render);
 }
 
-void Rect::Color(Uint8 r, Uint8 g, Uint8 b, Uint8 a)
+void FigurePublic::Color(Uint8 r, Uint8 g, Uint8 b, Uint8 a)
 {
 	this -> r = r;
 	this -> g = g;
@@ -43,23 +43,7 @@ void Rect::Color(Uint8 r, Uint8 g, Uint8 b, Uint8 a)
 	this -> a = a;
 }
 
-void Tringle::Color(Uint8 r, Uint8 g, Uint8 b, Uint8 a)
-{
-	this -> r = r;
-	this -> g = g;
-	this -> b = b;
-	this -> a = a;
-}
-
-void Rect::DefaultColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a)
-{
-	this -> const_r = r;
-	this -> const_g = g;
-	this -> const_b = b;
-	this -> const_a = a;
-}
-
-void Tringle::DefaultColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a)
+void FigurePrivate::DefaultColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a)
 {
 	this -> const_r = r;
 	this -> const_g = g;
