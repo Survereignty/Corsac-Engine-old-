@@ -32,8 +32,6 @@ void Rily::ChekEvent(SDL_Event e)
 		case SDL_MOUSEBUTTONUP:
 			AllUpClick(e);
 			break;
-		case SDL_MOUSEMOTION:
-			AllOnMouse(e);
 	}	
 }
 
@@ -82,14 +80,14 @@ void Rily::AllUpClick(SDL_Event e)
 	}
 }
 
-void Rily::AllOnMouse(SDL_Event e)
+void Rily::AllOnMouse(int x, int y)
 {
 	for(Rect *R : this -> OnMouseRect)
 	{		
-		if(	e.button.x >= R -> x && 
-			e.button.y >= R -> y && 
-			e.button.x <= R -> x + R -> size_x && 
-			e.button.y <= R -> y + R -> size_y &&
+		if(	x >= R -> x && 
+			y >= R -> y && 
+			x <= R -> x + R -> size_x && 
+			y <= R -> y + R -> size_y &&
 			!R -> OD)
 		{
 			R -> OB = true;
@@ -100,10 +98,10 @@ void Rily::AllOnMouse(SDL_Event e)
 			
 			R->Color(R -> const_r, R -> const_g, R -> const_b, R -> const_a);
 		}
-		if(	!(e.button.x >= R -> x && 
-			e.button.y >= R -> y && 
-			e.button.x <= R -> x + R -> size_x && 
-			e.button.y <= R -> y + R -> size_y))
+		if(	!(x >= R -> x && 
+			y >= R -> y && 
+			x <= R -> x + R -> size_x && 
+			y <= R -> y + R -> size_y))
 		{
 			R -> OB = false;
 		}
@@ -111,8 +109,8 @@ void Rily::AllOnMouse(SDL_Event e)
 
 	for(Tringle *T : this -> OnMouseTringle)
 	{		
-		int a = (T->ax - e.button.x) * (T->cy - T->ay) - (T->bx - T->ax) * (T->ay - e.button.y);
-		int b = (T->bx - e.button.x) * (T->by - T->by) - (T->cx - T->bx) * (T->by - e.button.y);
-		int c = (T->cx - e.button.x) * (T->ay - T->cy) - (T->ax - T->cx) * (T->cy - e.button.y);	
+		int a = (T->ax - x) * (T->cy - T->ay) - (T->bx - T->ax) * (T->ay - y);
+		int b = (T->bx - x) * (T->by - T->by) - (T->cx - T->bx) * (T->by - y);
+		int c = (T->cx - x) * (T->ay - T->cy) - (T->ax - T->cx) * (T->cy - y);	
 	}
 }

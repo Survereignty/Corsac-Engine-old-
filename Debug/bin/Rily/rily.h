@@ -39,9 +39,10 @@ class Rect: public FigurePublic, private FigurePrivate								// Класс па
 {
 	private:
 		int size_x, size_y, number;
-
+		std::vector<std::function<void(void)>> SecondaryFunctions;
 		void Draw(SDL_Renderer *R);
 		void MoveFinal(int x, int y, int speed_x, int speed_y);
+
 
 	public:
 		int x, y;
@@ -53,10 +54,11 @@ class Rect: public FigurePublic, private FigurePrivate								// Класс па
 		friend class Rily;
 };
 
-class Tringle: public FigurePublic, private FigurePrivate								// Класс Треугольника
+class Tringle: public FigurePublic, private FigurePrivate							// Класс Треугольника
 {
 	private:
 		int ax, ay, bx, by, cx, cy, center_x, center_y, number;
+		std::vector<std::function<void(void)>> SecondaryFunctions;
 		
 		void Draw(SDL_Renderer *R);
 		void MoveFinal(int x, int y, int speed_x, int speed_y);
@@ -86,7 +88,7 @@ class Rily
 
 		void AllDClick(SDL_Event e);
 		void AllUpClick(SDL_Event e);
-		void AllOnMouse(SDL_Event e);
+		void AllOnMouse(int x, int y);
 
 	public:
 		Rily(SDL_Renderer *R);

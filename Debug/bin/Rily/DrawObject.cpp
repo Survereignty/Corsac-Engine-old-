@@ -22,6 +22,12 @@ void Tringle::Draw(SDL_Renderer *R)
 
 void Rily::DrawingObjects()
 {
+	int x, y;
+
+	SDL_GetMouseState(&x, &y);
+	
+	AllOnMouse(x, y);
+
 	for(Rect	*R : this -> RectVisibility )
 	{
 		R->Draw(this->render);
@@ -50,3 +56,4 @@ void FigurePrivate::DefaultColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a)
 	this -> const_b = b;
 	this -> const_a = a;
 }
+
