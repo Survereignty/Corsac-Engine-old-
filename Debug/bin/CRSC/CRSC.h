@@ -46,10 +46,9 @@ class CRSC_Img
 {
 private:
     SDL_Renderer* R;
+    CRSC_Logs* Logs; // Центр хранения и управления логами
 
     CRSC_ImgFlags Flags;
-
-    CRSC_Logs* Logs; // Центр хранения и управления логами
 
     int Init(SDL_Renderer* R, CRSC_Logs* Logs);
 public:
