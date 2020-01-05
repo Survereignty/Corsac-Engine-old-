@@ -2,10 +2,9 @@
 
 //#include "./bin/Rily/rily.h"
 
-CRSC_Engine Engine = CRSC_Init("CG", "Corsac");
-SDL_Renderer* R = Engine.getRenderer();
-
-CRSC_Img* i = Engine.getImg();
+CRSC_Engine E = CRSC_Init("CG", "Corsac");
+SDL_Renderer* r = E.getRenderer();
+CRSC_Graph* g = E.getGraph();
 //Rily r(R);
 
 class Menu : public CRSC_Scene
@@ -16,11 +15,11 @@ private:
 
     void Loading()
     {
-        background = i->CreateObject("background", 0, 0, Engine.Video.screenWidth, Engine.Video.screenHeight);
-        foo = i->CreateObject("foo", 240, 190, 170, 300);
+        background = g->CreateObject("background", 0, 0, E.Video.Width, E.Video.Height);
+        foo = g->CreateObject("foo", 240, 190, 170, 300);
 
-        background->setColor(0, 255, 0);
-        foo->setAlpha(100);
+        background->setColor(0, 0, 100);
+        foo->setAlpha(200);
     };
 
     void Events()
@@ -55,13 +54,13 @@ private:
             foo->rect->x += 1;
             foo->flip = SDL_FLIP_HORIZONTAL;
         }
-        i->DrawingObjects();
+        g->DrawingObjects();
         SDL_Delay(3);
     }
 
     void Destroy()
     {
-        i->DestroyObjects();
+        g->DestroyObjects();
     }
 public:
     Menu(){};

@@ -20,7 +20,7 @@ struct CRSC_LogsFlags
     const char* PATH            = strcat(SDL_GetBasePath(), "logs.txt");
 };
 
-struct CRSC_ImgFlags
+struct CRSC_GraphFlags
 {
     IMG_InitFlags flags = IMG_INIT_PNG;
     std::string   pathToSprite = strcat(SDL_GetBasePath(), "data/sprites/");
@@ -47,21 +47,20 @@ struct CRSC_GameInfo
 // Настройки видео
 struct CRSC_Video
 {
-    int     screenWidth     = 1200;  // Ширина экрана
-    int     screenHeight    = 800;  // Высота экрана
-    bool    fullScreen      = false;// Полноэкранный режим:         0-нет 1-да
-    bool    presentvsync    = false;// Вертикальная синхронизация:  0-нет 1-да
-    bool    fpsOut          = false;// Ограничения по фпс:          0-нет 1-да
-    int     maxFps          = 30;   // На какое число ограничить фпс
-    float   brigh           = 1.0;  // Цветовая гамма
+    int     Width  = 1200;  // Ширина экрана
+    int     Height = 800;   // Высота экрана
+    bool    Full   = false; // Полноэкранный режим:          0-нет 1-да
+    bool    FpsOut = false; // Ограничения по фпс:           0-нет 1-да
+    int     MaxFps = 30;    // На какое число ограничить фпс
+    float   Brigh  = 1.0;   // Цветовая гамма
 };
 
 // Настройки звука
 struct CRSC_Audio
 {
-    int     generalValume   = 75;  // Общая громкость:  0 - 100
-    int     musicValume     = 75;  // Громкость музыки: 0 - 100
-    int     soundsValume    = 75;  // Громкость звуков: 0 - 100
+    int     Main   = 75;  // Общая громкость:  0 - 100
+    int     Music  = 75;  // Громкость музыки: 0 - 100
+    int     Sounds = 75;  // Громкость звуков: 0 - 100
 
     bool muteMusic  = false;
     bool muteSounds = false;

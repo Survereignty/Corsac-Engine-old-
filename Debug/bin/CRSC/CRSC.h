@@ -62,13 +62,13 @@ public:
 
 
 // Центр управления SDL_IMG
-class CRSC_Img
+class CRSC_Graph
 {
 private:
     SDL_Renderer* R;
     CRSC_Logs* Logs; // Центр хранения и управления логами
 
-    CRSC_ImgFlags Flags;
+    CRSC_GraphFlags Flags;
 
     std::vector<CRSC_Object*> texs;
 
@@ -79,8 +79,8 @@ public:
     void DrawingObjects();
     void DestroyObjects();
 
-    CRSC_Img();
-    ~CRSC_Img();
+    CRSC_Graph();
+    ~CRSC_Graph();
 
     friend class CRSC_Engine;
 };
@@ -97,18 +97,6 @@ public:
     ~CRSC_Mix();
 };
 
-// Центр управления SDL_Ttf
-class CRSC_Ttf
-{
-private:
-
-public:
-    int Init();
-
-    CRSC_Ttf();
-    ~CRSC_Ttf();
-};
-
 // Центр управления
 class CRSC_Engine
 {
@@ -116,9 +104,8 @@ private:
     CRSC_Logs Logs; // Центр хранения и управления логами
 
     CRSC_Sdl Sdl; // Центр управления SDL2
-    CRSC_Img Img; // Центр управления SDL_IMG
+    CRSC_Graph Graph; // Центр управления SDL_IMG
     CRSC_Mix Mix; // Центр управления SDL_MIX
-    CRSC_Ttf Ttf; // Центр управления SDL_Ttf
 
     void Setup();      // Запустить игру
 public:
@@ -128,10 +115,10 @@ public:
 
     SDL_Renderer*   getRenderer();
     CRSC_Logs*      getLogs();
-    CRSC_Img*       getImg();
+    CRSC_Graph*       getGraph();
 
     void setAutoSizes(); // Определить экран игрока и установить размеры
-    void setFullScreen(bool permanently = true); // Установить настройки
+    void setFull(bool permanently = true); // Установить настройки
 
     CRSC_Store    Store;   // Хранилище данных игры
     CRSC_GameInfo Info;    // Информация о проекте

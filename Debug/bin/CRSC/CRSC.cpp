@@ -90,14 +90,15 @@ CRSC_Object::~CRSC_Object(){}
 ////////////////////////////////////////////////////////////////////////////////////////////
 
 // Центр управления SDL_IMG
-int CRSC_Img::Init(SDL_Renderer* R, CRSC_Logs* Logs)
+int CRSC_Graph::Init(SDL_Renderer* R, CRSC_Logs* Logs)
 {
     if (!(IMG_Init(Flags.flags) & Flags.flags)) return 1;
+    if (TTF_Init() == -1) return 1;
     this->R = R;
     this->Logs = Logs;
     return 0;
 };
-void CRSC_Img::DrawingObjects()
+void CRSC_Graph::DrawingObjects()
 {
     for (CRSC_Object* item : this->texs)
     {
@@ -105,7 +106,7 @@ void CRSC_Img::DrawingObjects()
     }
     SDL_RenderPresent(R);
 };
-void CRSC_Img::DestroyObjects()
+void CRSC_Graph::DestroyObjects()
 {
     SDL_SetRenderDrawColor(R, 0, 0, 0, 255);
     SDL_RenderClear(R);
@@ -116,7 +117,7 @@ void CRSC_Img::DestroyObjects()
     }
     this->texs.clear();
 };
-CRSC_Object* CRSC_Img::CreateObject(std::string p, int x, int y, int w, int h, double angle, SDL_Point* center, SDL_RendererFlip flip)
+CRSC_Object* CRSC_Graph::CreateObject(std::string p, int x, int y, int w, int h, double angle, SDL_Point* center, SDL_RendererFlip flip)
 {
     SDL_Texture* n = NULL;
     std::string path = Flags.pathToSprite + p + Flags.format;
@@ -133,9 +134,10 @@ CRSC_Object* CRSC_Img::CreateObject(std::string p, int x, int y, int w, int h, d
     this->texs.push_back(obj);
     return obj;
 }
-CRSC_Img::CRSC_Img(){};
-CRSC_Img::~CRSC_Img()
+CRSC_Graph::CRSC_Graph(){};
+CRSC_Graph::~CRSC_Graph()
 {
+    TTF_Quit();
     IMG_Quit();
 };
 
@@ -157,22 +159,6 @@ CRSC_Mix::~CRSC_Mix()
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 
-// Центр управления SDL_Ttf
-int CRSC_Ttf::Init()
-{
-    if (TTF_Init() == -1) return 1;
-    return 0;
-};
-CRSC_Ttf::CRSC_Ttf(){};
-CRSC_Ttf::~CRSC_Ttf()
-{
-    TTF_Quit();
-};
-
-////////////////////////////////////////////////////////////////////////////////////////////
-
-////////////////////////////////////////////////////////////////////////////////////////////
-
 // Центр управления
 CRSC_Engine::CRSC_Engine(const char* GameName, const char* OrgName)
 {
@@ -191,20 +177,19 @@ void CRSC_Engine::Setup()
     //setAutoSizes();
     if (!SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, "1" )) Logs.Set("Warning: Linear texture filtering not enabled!", "");
     if (Sdl.CreateWindow(Info.GameName,
-        Video.screenWidth,
-        Video.screenHeight
+        Video.Width,
+        Video.Height
     )) Logs.Set("Window could not be created! SDL Error: ", SDL_GetError());
-    setFullScreen(false);
+    setFull(false);
     if (Sdl.CreateRenderer()) Logs.Set("Renderer could not be created! SDL Error: ", SDL_GetError());
-    if (Img.Init(Sdl.Renderer, &Logs)) Logs.Set("SDL_image could not initialize! SDL_image Error: ", SDL_GetError());
+    if (Graph.Init(Sdl.Renderer, &Logs)) Logs.Set("SDL_image could not initialize! SDL_image Error: ", SDL_GetError());
     SDL_SetRenderDrawColor(Sdl.Renderer, 0, 0, 0, 255);
     SDL_RenderClear(Sdl.Renderer);
     if (Mix.Init()) Logs.Set("SDL_mix could not initialize! SDL_Error: ", SDL_GetError());
-    if (Ttf.Init()) Logs.Set("SDL_ttf could not initialize! SDL_ttf Error: ", SDL_GetError());
 };
-CRSC_Img* CRSC_Engine::getImg()
+CRSC_Graph* CRSC_Engine::getGraph()
 {
-    return &Img;
+    return &Graph;
 };
 SDL_Renderer* CRSC_Engine::getRenderer()
 {
@@ -214,12 +199,12 @@ void CRSC_Engine::setAutoSizes()
 {
     SDL_DisplayMode dm;
     SDL_GetCurrentDisplayMode(0, &dm);
-        Video.screenWidth = dm.w;
-        Video.screenHeight = dm.h;
+        Video.Width = dm.w;
+        Video.Height = dm.h;
 }
-void CRSC_Engine::setFullScreen(bool permanently)
+void CRSC_Engine::setFull(bool permanently)
 {
-    if (Video.fullScreen || permanently) Video.fullScreen = true; SDL_SetWindowFullscreen(Sdl.Window, 0);
+    if (Video.Full || permanently) Video.Full = true; SDL_SetWindowFullscreen(Sdl.Window, 0);
 }
 CRSC_Engine CRSC_Init(const char* GameName, const char* OrgName)
 {
