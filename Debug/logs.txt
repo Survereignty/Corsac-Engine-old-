@@ -47,3 +47,8 @@
 [ERROR] Milliseconds since SDL initialize time: 294
 [ERROR] Milliseconds since SDL initialize time: 312
 [ERROR] Milliseconds since SDL initialize time: 315
+[ERROR] Milliseconds since SDL initialize time: 423
+[ERROR] Milliseconds since SDL initialize time: 298
+[ERROR] Milliseconds since SDL initialize time: 291
+[ERROR] Milliseconds since SDL initialize time: 372
+[ERROR] Milliseconds since SDL initialize time: 395
