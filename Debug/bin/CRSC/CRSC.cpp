@@ -70,6 +70,75 @@ CRSC_Sdl::~CRSC_Sdl()
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 
+// Таймер
+
+CRSC_Timer::CRSC_Timer()
+{
+    mStartTicks = 0;
+    mPausedTicks = 0;
+    mPaused = false;
+    mStarted = false;
+};
+CRSC_Timer::~CRSC_Timer(){};
+void CRSC_Timer::start()
+{
+    mStarted = true;
+    mPaused = false;
+    mStartTicks = SDL_GetTicks();
+    mPausedTicks = 0;
+};
+void CRSC_Timer::stop()
+{
+    mStarted = false;
+    mPaused = false;
+    mStartTicks = 0;
+    mPausedTicks = 0;
+};
+void CRSC_Timer::pause()
+{
+    if( mStarted && !mPaused )
+    {
+        mPaused = true;
+        mPausedTicks = SDL_GetTicks() - mStartTicks;
+        mStartTicks = 0;
+    }
+};
+void CRSC_Timer::unpause()
+{
+    if( mStarted && mPaused )
+    {
+        mPaused = false;
+        mStartTicks = SDL_GetTicks() - mPausedTicks;
+        mPausedTicks = 0;
+    }
+};
+Uint32 CRSC_Timer::getTicks()
+{
+    Uint32 time = 0;
+    if( mStarted )
+    {
+        if( mPaused )
+        {
+            time = mPausedTicks;
+        }
+        else
+        {
+            time = SDL_GetTicks() - mStartTicks;
+        }
+    }
+    return time;
+};
+bool CRSC_Timer::isStarted()
+{
+    return mStarted;
+};
+bool CRSC_Timer::isPaused()
+{
+    return mPaused && mStarted;
+};
+
+////////////////////////////////////////////////////////////////////////////////////////////
+
 // Объект
 void CRSC_Object::setColor( Uint8 red, Uint8 green, Uint8 blue )
 {
@@ -85,31 +154,47 @@ CRSC_Object::CRSC_Object(SDL_Rect* rect, SDL_Texture* tex)
     this->rect = rect;
     this->tex = tex;
 }
+CRSC_Object::CRSC_Object()
+{
+    this->rect = NULL;
+    this->tex = NULL;
+}
+void CRSC_Object::free()
+{
+    if (tex != NULL) {
+        std::cout << tex << std::endl;
+        SDL_DestroyTexture(tex);
+    }
+}
 CRSC_Object::~CRSC_Object(){}
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 
 // Центр управления SDL_IMG
-int CRSC_Graph::Init(SDL_Renderer* R, CRSC_Logs* Logs)
+void CRSC_Graph::Init(SDL_Renderer* R, CRSC_Logs* Logs)
 {
-    if (!(IMG_Init(Flags.flags) & Flags.flags)) return 1;
-    if (TTF_Init() == -1) return 1;
+    if (!(IMG_Init(Flags.flags) & Flags.flags)) Logs->Set("SDL_image could not initialize! SDL_image Error: ", IMG_GetError());
+    if (TTF_Init() == -1) Logs->Set("SDL_ttf could not initialize! SDL_ttf Error: ", TTF_GetError());
+    Font = TTF_OpenFont(Flags.pathToFont, 28);
+    if(Font == NULL) Logs->Set("Failed to load font! SDL_ttf Error: ", TTF_GetError());
     this->R = R;
     this->Logs = Logs;
-    return 0;
 };
 void CRSC_Graph::DrawingObjects()
 {
     for (CRSC_Object* item : this->texs)
     {
-        SDL_RenderCopyEx(R, item->tex, NULL, item->rect, item->angle, item->center, item->flip);
+        if (item->clip != NULL)
+        {
+            item->rect->w = item->clip->w;
+            item->rect->h = item->clip->h;
+        }
+        SDL_RenderCopyEx(R, item->tex, item->clip, item->rect, item->angle, item->center, item->flip);
     }
     SDL_RenderPresent(R);
 };
 void CRSC_Graph::DestroyObjects()
 {
-    SDL_SetRenderDrawColor(R, 0, 0, 0, 255);
-    SDL_RenderClear(R);
     for (CRSC_Object* item : this->texs)
     {
         SDL_DestroyTexture(item->tex);
@@ -117,23 +202,57 @@ void CRSC_Graph::DestroyObjects()
     }
     this->texs.clear();
 };
-CRSC_Object* CRSC_Graph::CreateObject(std::string p, int x, int y, int w, int h, double angle, SDL_Point* center, SDL_RendererFlip flip)
+CRSC_Object* CRSC_Graph::CreateObject(  std::string p,         // Имя спрайта
+                                        int x, int y,          // Месторасположение
+                                        SDL_Rect* clip,        // Дробление
+                                        double angle,          // Повернуть
+                                        SDL_Point* center,     // Центр текстуры
+                                        SDL_RendererFlip flip) // Перевернуть
 {
-    SDL_Texture* n = NULL;
+    // Создание текстуры
     std::string path = Flags.pathToSprite + p + Flags.format;
     SDL_Surface* l = IMG_Load(path.c_str());
     if(l == NULL) Logs->Set("Unable to load image! SDL_image Error: ", path + " " + IMG_GetError());
     SDL_SetColorKey(l, SDL_TRUE, SDL_MapRGB( l->format, 0, 0xFF, 0xFF));
-    n = SDL_CreateTextureFromSurface(R, l);
-    SDL_FreeSurface(l);
+    SDL_Texture* n = SDL_CreateTextureFromSurface(R, l);
+
+    // Присваивание параметров
     SDL_Rect* r = new SDL_Rect();
-        r->x = x; r->y = y;
-        r->w = w; r->h = h;
+        r->x = x;    r->y = y;
+        r->w = l->w; r->h = l->h;
     CRSC_Object* obj = new CRSC_Object(r, n);
-    obj->angle = angle; obj->center = center; obj->flip = flip;
+    obj->angle = angle; obj->center = center; obj->flip = flip; obj->clip = clip;
+
+    // Возвращаем и пушим в вектор всех текстур
+    SDL_FreeSurface(l);
     this->texs.push_back(obj);
     return obj;
 }
+// Создать текстуру текста
+CRSC_Object* CRSC_Graph::CreateText(std::string text,          // Текст
+                                    Uint8 r, Uint8 g, Uint8 b, // Цвет
+                                    int x, int y,              // Месторасположение
+                                    double angle,              // Повернуть
+                                    SDL_Point* center,         // Центр текстуры
+                                    SDL_RendererFlip flip)     // Перевернуть
+{
+    // Создание текстуры
+    SDL_Color    c{r, g, b};
+    SDL_Surface* l = TTF_RenderText_Solid(Font, text.c_str(), c);
+    if (l == NULL) Logs->Set("Unable to render text surface! SDL_ttf Error: ", TTF_GetError());
+    SDL_Texture* n = SDL_CreateTextureFromSurface(R, l);
+    // Присваивание параметров
+    SDL_Rect* R = new SDL_Rect();
+        R->x = x;    R->y = y;
+        R->w = l->w; R->h = l->h;
+    CRSC_Object* obj = new CRSC_Object(R, n);
+        obj->angle = angle; obj->center = center; obj->flip = flip;
+
+    // Возвращаем и пушим в вектор всех текстур
+    SDL_FreeSurface(l);
+    this->texs.push_back(obj);
+    return obj;
+};
 CRSC_Graph::CRSC_Graph(){};
 CRSC_Graph::~CRSC_Graph()
 {
@@ -182,10 +301,11 @@ void CRSC_Engine::Setup()
     )) Logs.Set("Window could not be created! SDL Error: ", SDL_GetError());
     setFull(false);
     if (Sdl.CreateRenderer()) Logs.Set("Renderer could not be created! SDL Error: ", SDL_GetError());
-    if (Graph.Init(Sdl.Renderer, &Logs)) Logs.Set("SDL_image could not initialize! SDL_image Error: ", SDL_GetError());
+    Graph.Init(Sdl.Renderer, &Logs);
     SDL_SetRenderDrawColor(Sdl.Renderer, 0, 0, 0, 255);
     SDL_RenderClear(Sdl.Renderer);
     if (Mix.Init()) Logs.Set("SDL_mix could not initialize! SDL_Error: ", SDL_GetError());
+    Logs.Set("Milliseconds since SDL initialize time: ",std::to_string(SDL_GetTicks()));
 };
 CRSC_Graph* CRSC_Engine::getGraph()
 {
@@ -204,7 +324,10 @@ void CRSC_Engine::setAutoSizes()
 }
 void CRSC_Engine::setFull(bool permanently)
 {
-    if (Video.Full || permanently) Video.Full = true; SDL_SetWindowFullscreen(Sdl.Window, 0);
+    if (Video.Full || permanently) {
+        Video.Full = true;
+        SDL_SetWindowFullscreen(Sdl.Window, 1);
+    }
 }
 CRSC_Engine CRSC_Init(const char* GameName, const char* OrgName)
 {

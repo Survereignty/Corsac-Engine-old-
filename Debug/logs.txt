@@ -1,7 +1,49 @@
-[ERROR] Unable to load image %s! SDL_image Error: %s
-player.pngCouldn't open player.png
-[ERROR] Unable to create texture from %s! SDL Error: %s
-player.pngInvalid renderer
-[ERROR] Unable to load image! SDL_image Error:player.png Couldn't open player.png
-[ERROR] Unable to create texture from! SDL Error:player.png Invalid renderer
-[ERROR] Unable to load image! SDL_image Error: player.png Couldn't open player.png
+[ERROR] Milliseconds since SDL initialize time: 323
+[ERROR] Milliseconds since SDL initialize time: 304
+[ERROR] Milliseconds since SDL initialize time: 306
+[ERROR] Milliseconds since SDL initialize time: 279
+[ERROR] Milliseconds since SDL initialize time: 330
+[ERROR] Unable to render text surface! SDL_ttf Error: Text has zero width
+[ERROR] Milliseconds since SDL initialize time: 304
+[ERROR] Milliseconds since SDL initialize time: 304
+[ERROR] Milliseconds since SDL initialize time: 386
+[ERROR] Milliseconds since SDL initialize time: 312
+[ERROR] Milliseconds since SDL initialize time: 294
+[ERROR] Milliseconds since SDL initialize time: 324
+[ERROR] Milliseconds since SDL initialize time: 433
+[ERROR] Milliseconds since SDL initialize time: 311
+[ERROR] Milliseconds since SDL initialize time: 299
+[ERROR] Milliseconds since SDL initialize time: 351
+[ERROR] Milliseconds since SDL initialize time: 329
+[ERROR] Milliseconds since SDL initialize time: 340
+[ERROR] Milliseconds since SDL initialize time: 323
+[ERROR] Milliseconds since SDL initialize time: 301
+[ERROR] Milliseconds since SDL initialize time: 348
+[ERROR] Milliseconds since SDL initialize time: 312
+[ERROR] Milliseconds since SDL initialize time: 328
+[ERROR] Milliseconds since SDL initialize time: 391
+[ERROR] Milliseconds since SDL initialize time: 312
+[ERROR] Milliseconds since SDL initialize time: 298
+[ERROR] Milliseconds since SDL initialize time: 337
+[ERROR] Milliseconds since SDL initialize time: 342
+[ERROR] Milliseconds since SDL initialize time: 364
+[ERROR] Milliseconds since SDL initialize time: 337
+[ERROR] Milliseconds since SDL initialize time: 307
+[ERROR] Milliseconds since SDL initialize time: 321
+[ERROR] Milliseconds since SDL initialize time: 320
+[ERROR] Milliseconds since SDL initialize time: 321
+[ERROR] Milliseconds since SDL initialize time: 323
+[ERROR] Milliseconds since SDL initialize time: 302
+[ERROR] Milliseconds since SDL initialize time: 376
+[ERROR] Milliseconds since SDL initialize time: 307
+[ERROR] Milliseconds since SDL initialize time: 333
+[ERROR] Milliseconds since SDL initialize time: 388
+[ERROR] Milliseconds since SDL initialize time: 302
+[ERROR] Milliseconds since SDL initialize time: 351
+[ERROR] Milliseconds since SDL initialize time: 296
+[ERROR] Milliseconds since SDL initialize time: 289
+[ERROR] Milliseconds since SDL initialize time: 301
+[ERROR] Milliseconds since SDL initialize time: 299
+[ERROR] Milliseconds since SDL initialize time: 294
+[ERROR] Milliseconds since SDL initialize time: 312
+[ERROR] Milliseconds since SDL initialize time: 315

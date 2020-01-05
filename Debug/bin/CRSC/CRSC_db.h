@@ -5,13 +5,13 @@
 #include <vector>
 #include <map>
 #include <ctime>
+#include <sstream>
 
 #include "SDL2/SDL.h"
 #include "SDL2/SDL_image.h"
 #include "SDL2/SDL_ttf.h"
 #include "SDL2/SDL_mixer.h"
 #include "SDL2/SDL_thread.h"
-
 
 struct CRSC_LogsFlags
 {
@@ -25,6 +25,7 @@ struct CRSC_GraphFlags
     IMG_InitFlags flags = IMG_INIT_PNG;
     std::string   pathToSprite = strcat(SDL_GetBasePath(), "data/sprites/");
     std::string   format = ".png";
+    const char*   pathToFont = strcat(SDL_GetBasePath(), "data/font/18432.ttf");
 };
 
 struct CRSC_AudioFlags
@@ -49,7 +50,7 @@ struct CRSC_Video
 {
     int     Width  = 1200;  // Ширина экрана
     int     Height = 800;   // Высота экрана
-    bool    Full   = false; // Полноэкранный режим:          0-нет 1-да
+    bool    Full   = false;  // Полноэкранный режим:          0-нет 1-да
     bool    FpsOut = false; // Ограничения по фпс:           0-нет 1-да
     int     MaxFps = 30;    // На какое число ограничить фпс
     float   Brigh  = 1.0;   // Цветовая гамма

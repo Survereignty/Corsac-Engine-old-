@@ -12,14 +12,19 @@ class Menu : public CRSC_Scene
 private:
     CRSC_Object* background;
     CRSC_Object* foo;
+    CRSC_Object* text;
+    CRSC_Timer timer;
+    std::stringstream timeText;
 
     void Loading()
     {
-        background = g->CreateObject("background", 0, 0, E.Video.Width, E.Video.Height);
-        foo = g->CreateObject("foo", 240, 190, 170, 300);
+        background = g->CreateObject("background", 0, 0);
+        foo = g->CreateObject("foo", 240, 190);
 
-        background->setColor(0, 0, 100);
-        foo->setAlpha(200);
+        timer.start();
+        timeText.str( "" );
+        timeText << "Seconds since start time " << (timer.getTicks() / 1000.f);
+        text = g->CreateText(timeText.str().c_str(), 255, 0, 0, 0, 0);
     };
 
     void Events()
@@ -44,6 +49,9 @@ private:
 
     void Loop()
     {
+        SDL_SetRenderDrawColor( R, 0xFF, 0xFF, 0xFF, 0xFF );
+        SDL_RenderClear( R );
+
         if (SDL_GetKeyboardState(nullptr)[SDL_SCANCODE_W]) foo->rect->y -= 1;
         if (SDL_GetKeyboardState(nullptr)[SDL_SCANCODE_S]) foo->rect->y += 1;
         if (SDL_GetKeyboardState(nullptr)[SDL_SCANCODE_A]) {
@@ -55,6 +63,7 @@ private:
             foo->flip = SDL_FLIP_HORIZONTAL;
         }
         g->DrawingObjects();
+
         SDL_Delay(3);
     }
 

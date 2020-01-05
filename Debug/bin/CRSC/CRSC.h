@@ -41,6 +41,32 @@ public:
     ~CRSC_Sdl();
 };
 
+class CRSC_Timer
+{
+private:
+    // Время старта таймера
+    Uint32 mStartTicks;
+    // Время остановки таймера
+    Uint32 mPausedTicks;
+
+    // Статус таймера
+    bool mPaused;
+    bool mStarted;
+public:
+    CRSC_Timer();
+    ~CRSC_Timer();
+
+    void start();   // Запустить
+    void stop();    // Остановить
+    void pause();   // Пауза
+    void unpause(); // Убрать паузу
+
+    Uint32 getTicks(); // Текущие время
+
+    bool isStarted(); // Запущен?
+    bool isPaused();  // На паузе?
+};
+
 // Объект
 class CRSC_Object
 {
@@ -51,12 +77,16 @@ public:
     // Установить прозрачность
     void setAlpha(Uint8 alpha);
 
+    void free();
+
     double angle;
     SDL_Point* center;
     SDL_RendererFlip flip;
     SDL_Texture* tex;
     SDL_Rect* rect;
+    SDL_Rect* clip = NULL;
     CRSC_Object(SDL_Rect* rect, SDL_Texture* tex);
+    CRSC_Object();
     ~CRSC_Object();
 };
 
@@ -72,9 +102,12 @@ private:
 
     std::vector<CRSC_Object*> texs;
 
-    int Init(SDL_Renderer* R, CRSC_Logs* Logs);
+    TTF_Font * Font;
+
+    void Init(SDL_Renderer* R, CRSC_Logs* Logs);
 public:
-    CRSC_Object* CreateObject(std::string path, int x, int y, int w, int h, double angle = 0.0, SDL_Point* center = NULL, SDL_RendererFlip flip = SDL_FLIP_NONE);
+    CRSC_Object* CreateObject(std::string path, int x, int y, SDL_Rect* clip = NULL, double angle = 0.0, SDL_Point* center = NULL, SDL_RendererFlip flip = SDL_FLIP_NONE);
+    CRSC_Object* CreateText(std::string text, Uint8 r, Uint8 g, Uint8 b, int x, int y, double angle = 0.0, SDL_Point* center = NULL, SDL_RendererFlip flip = SDL_FLIP_NONE);
 
     void DrawingObjects();
     void DestroyObjects();
