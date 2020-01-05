@@ -6,6 +6,19 @@ Rily::Rily(SDL_Renderer *r)
 	std::cout << "Module Rily working!" << std::endl;
 }
 
+Rily::~Rily()
+{
+	for(Rect *R : this -> RectObjects )
+	{
+		delete R;
+	}
+
+	for(Tringle *T : this -> TringObjects )
+	{
+		delete T;
+	}
+}
+
 Rect* Rily::CreateRect(std::string name, int x, int y, int size_x, int size_y, Uint8 r, Uint8 g, Uint8 b, Uint8 a)
 {
 	Rect *object = new Rect(name, size_x, size_y, x, y, r, g, b, a);
@@ -50,10 +63,8 @@ void Rily::AllDClick(SDL_Event e)
 	}
 
 	for(Tringle *T : this -> DownClickTringle)
-	{		
-		int a = (T->ax - e.button.x) * (T->cy - T->ay) - (T->bx - T->ax) * (T->ay - e.button.y);
-		int b = (T->bx - e.button.x) * (T->by - T->by) - (T->cx - T->bx) * (T->by - e.button.y);
-		int c = (T->cx - e.button.x) * (T->ay - T->cy) - (T->ax - T->cx) * (T->cy - e.button.y);	
+	{
+		T->PointCheck(e.button.x, e.button.y);	
 	}
 }
 
@@ -74,9 +85,7 @@ void Rily::AllUpClick(SDL_Event e)
 
 	for(Tringle *T : this -> UpClickTringle)
 	{		
-		int a = (T->ax - e.button.x) * (T->cy - T->ay) - (T->bx - T->ax) * (T->ay - e.button.y);
-		int b = (T->bx - e.button.x) * (T->by - T->by) - (T->cx - T->bx) * (T->by - e.button.y);
-		int c = (T->cx - e.button.x) * (T->ay - T->cy) - (T->ax - T->cx) * (T->cy - e.button.y);	
+		T->PointCheck(e.button.x, e.button.y);
 	}
 }
 
@@ -98,6 +107,7 @@ void Rily::AllOnMouse(int x, int y)
 			
 			R->Color(R -> const_r, R -> const_g, R -> const_b, R -> const_a);
 		}
+
 		if(	!(x >= R -> x && 
 			y >= R -> y && 
 			x <= R -> x + R -> size_x && 
@@ -109,8 +119,13 @@ void Rily::AllOnMouse(int x, int y)
 
 	for(Tringle *T : this -> OnMouseTringle)
 	{		
-		int a = (T->ax - x) * (T->cy - T->ay) - (T->bx - T->ax) * (T->ay - y);
-		int b = (T->bx - x) * (T->by - T->by) - (T->cx - T->bx) * (T->by - y);
-		int c = (T->cx - x) * (T->ay - T->cy) - (T->ax - T->cx) * (T->cy - y);	
+		T->PointCheck(x, y);
 	}
+}
+
+void Chek()
+{
+	static int number = 1;
+	std::cout << number << std::endl;
+	number++;
 }

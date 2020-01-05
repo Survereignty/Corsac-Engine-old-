@@ -15,9 +15,23 @@ void Rect::Draw(SDL_Renderer *R)
 void Tringle::Draw(SDL_Renderer *R)
 {
 	SDL_SetRenderDrawColor(R, this -> r, this -> g, this -> b, this -> a);
+
 	SDL_RenderDrawLine(R, this -> ax, this -> ay, this -> bx, this -> by);
 	SDL_RenderDrawLine(R, this -> ax, this -> ay, this -> cx, this -> cy);
 	SDL_RenderDrawLine(R, this -> bx, this -> by, this -> cx, this -> cy);
+
+	int max_X = this->MaxCoor(this->ax, this->bx, this->cx), 
+		max_Y = this->MaxCoor(this->ay, this->by, this->cy), 
+		min_X = this->MinCoor(this->ax, this->bx, this->cx), 
+		min_Y = this->MaxCoor(this->ay, this->by, this->cy);
+
+	for(int x = min_X; max_X < x; x++)
+	{
+		for(int y = min_Y; max_Y < y; y++)
+		{
+			if(this->PointCheck(x, y)) SDL_RenderDrawPoint(R, x, y);
+		}
+	}
 }
 
 void Rily::DrawingObjects()
