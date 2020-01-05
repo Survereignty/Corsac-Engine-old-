@@ -11,6 +11,8 @@
 
 class Rily;
 
+void Chek();
+
 class FigurePrivate
 {
 	public:
@@ -60,6 +62,11 @@ class Tringle: public FigurePublic, private FigurePrivate							// Класс Т
 		int ax, ay, bx, by, cx, cy, center_x, center_y, number;
 		std::vector<std::function<void(void)>> SecondaryFunctions;
 		
+		int	MinCoor(int a, int b, int c);
+		int	MaxCoor(int a, int b, int c);
+
+		bool PointCheck(int x, int y);	
+
 		void Draw(SDL_Renderer *R);
 		void MoveFinal(int x, int y, int speed_x, int speed_y);
 
@@ -92,9 +99,10 @@ class Rily
 
 	public:
 		Rily(SDL_Renderer *R);
+		~Rily();
 
-		Tringle* CreateTringle(std::string name, int ax, int ay, int bx, int by, int cx, int cy, Uint8 r, Uint8 g, Uint8 b, Uint8 a);
-		Rect*    CreateRect(std::string name, int x, int y, int size_x, int size_y, Uint8 r, Uint8 g, Uint8 b, Uint8 a);
+		Tringle* CreateTringle(std::string name, int ax, int ay, int bx, int by, int cx, int cy, Uint8 r, Uint8 g, Uint8 b, Uint8 a = 255);
+		Rect*    CreateRect(std::string name, int x, int y, int size_x, int size_y, Uint8 r, Uint8 g, Uint8 b, Uint8 a = 255);
 		void Visibility(Tringle *R);
 		void Visibility(Rect *R);
 		void DrawingObjects();
