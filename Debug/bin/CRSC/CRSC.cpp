@@ -140,33 +140,21 @@ bool CRSC_Timer::isPaused()
 ////////////////////////////////////////////////////////////////////////////////////////////
 
 // Объект
-void CRSC_Object::setColor( Uint8 red, Uint8 green, Uint8 blue )
+void CRSC_Texture::setColor( Uint8 red, Uint8 green, Uint8 blue )
 {
     SDL_SetTextureColorMod(tex, red, green, blue);
 }
-void CRSC_Object::setAlpha(Uint8 alpha)
+void CRSC_Texture::setAlpha(Uint8 alpha)
 {
     SDL_SetTextureBlendMode(tex, SDL_BLENDMODE_BLEND);
     SDL_SetTextureAlphaMod(tex, alpha);
 }
-CRSC_Object::CRSC_Object(SDL_Rect* rect, SDL_Texture* tex)
+CRSC_Texture::CRSC_Texture(SDL_Rect* rect, SDL_Texture* tex)
 {
     this->rect = rect;
     this->tex = tex;
 }
-CRSC_Object::CRSC_Object()
-{
-    this->rect = NULL;
-    this->tex = NULL;
-}
-void CRSC_Object::free()
-{
-    if (tex != NULL) {
-        std::cout << tex << std::endl;
-        SDL_DestroyTexture(tex);
-    }
-}
-CRSC_Object::~CRSC_Object(){}
+CRSC_Texture::~CRSC_Texture(){}
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -182,7 +170,7 @@ void CRSC_Graph::Init(SDL_Renderer* R, CRSC_Logs* Logs)
 };
 void CRSC_Graph::DrawingObjects()
 {
-    for (CRSC_Object* item : this->texs)
+    for (CRSC_Texture* item : this->texs)
     {
         if (item->clip != NULL)
         {
@@ -195,14 +183,14 @@ void CRSC_Graph::DrawingObjects()
 };
 void CRSC_Graph::DestroyObjects()
 {
-    for (CRSC_Object* item : this->texs)
+    for (CRSC_Texture* item : this->texs)
     {
         SDL_DestroyTexture(item->tex);
         delete item;
     }
     this->texs.clear();
 };
-CRSC_Object* CRSC_Graph::CreateObject(  std::string p,         // Имя спрайта
+CRSC_Texture* CRSC_Graph::CreateObject(  std::string p,         // Имя спрайта
                                         int x, int y,          // Месторасположение
                                         SDL_Rect* clip,        // Дробление
                                         double angle,          // Повернуть
@@ -220,7 +208,7 @@ CRSC_Object* CRSC_Graph::CreateObject(  std::string p,         // Имя спр�
     SDL_Rect* r = new SDL_Rect();
         r->x = x;    r->y = y;
         r->w = l->w; r->h = l->h;
-    CRSC_Object* obj = new CRSC_Object(r, n);
+    CRSC_Texture* obj = new CRSC_Texture(r, n);
     obj->angle = angle; obj->center = center; obj->flip = flip; obj->clip = clip;
 
     // Возвращаем и пушим в вектор всех текстур
@@ -229,7 +217,7 @@ CRSC_Object* CRSC_Graph::CreateObject(  std::string p,         // Имя спр�
     return obj;
 }
 // Создать текстуру текста
-CRSC_Object* CRSC_Graph::CreateText(std::string text,          // Текст
+CRSC_Texture* CRSC_Graph::CreateText(std::string text,          // Текст
                                     Uint8 r, Uint8 g, Uint8 b, // Цвет
                                     int x, int y,              // Месторасположение
                                     double angle,              // Повернуть
@@ -245,7 +233,7 @@ CRSC_Object* CRSC_Graph::CreateText(std::string text,          // Текст
     SDL_Rect* R = new SDL_Rect();
         R->x = x;    R->y = y;
         R->w = l->w; R->h = l->h;
-    CRSC_Object* obj = new CRSC_Object(R, n);
+    CRSC_Texture* obj = new CRSC_Texture(R, n);
         obj->angle = angle; obj->center = center; obj->flip = flip;
 
     // Возвращаем и пушим в вектор всех текстур

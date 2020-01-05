@@ -68,7 +68,7 @@ public:
 };
 
 // Объект
-class CRSC_Object
+class CRSC_Texture
 {
 private:
 public:
@@ -77,17 +77,14 @@ public:
     // Установить прозрачность
     void setAlpha(Uint8 alpha);
 
-    void free();
-
     double angle;
     SDL_Point* center;
     SDL_RendererFlip flip;
     SDL_Texture* tex;
     SDL_Rect* rect;
     SDL_Rect* clip = NULL;
-    CRSC_Object(SDL_Rect* rect, SDL_Texture* tex);
-    CRSC_Object();
-    ~CRSC_Object();
+    CRSC_Texture(SDL_Rect* rect, SDL_Texture* tex);
+    ~CRSC_Texture();
 };
 
 
@@ -100,14 +97,14 @@ private:
 
     CRSC_GraphFlags Flags;
 
-    std::vector<CRSC_Object*> texs;
+    std::vector<CRSC_Texture*> texs;
 
     TTF_Font * Font;
 
     void Init(SDL_Renderer* R, CRSC_Logs* Logs);
 public:
-    CRSC_Object* CreateObject(std::string path, int x, int y, SDL_Rect* clip = NULL, double angle = 0.0, SDL_Point* center = NULL, SDL_RendererFlip flip = SDL_FLIP_NONE);
-    CRSC_Object* CreateText(std::string text, Uint8 r, Uint8 g, Uint8 b, int x, int y, double angle = 0.0, SDL_Point* center = NULL, SDL_RendererFlip flip = SDL_FLIP_NONE);
+    CRSC_Texture* CreateObject(std::string path, int x, int y, SDL_Rect* clip = NULL, double angle = 0.0, SDL_Point* center = NULL, SDL_RendererFlip flip = SDL_FLIP_NONE);
+    CRSC_Texture* CreateText(std::string text, Uint8 r, Uint8 g, Uint8 b, int x, int y, double angle = 0.0, SDL_Point* center = NULL, SDL_RendererFlip flip = SDL_FLIP_NONE);
 
     void DrawingObjects();
     void DestroyObjects();
